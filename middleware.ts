@@ -6,7 +6,12 @@ export function middleware(request: NextRequest) {
   const token = authToken?.value as string;
   console.log("from middleware cookies are", request.cookies);
   if (!token) {
-    if (request.nextUrl.pathname.startsWith("/api/users/profile")) {
+    if (
+      request.nextUrl.pathname.startsWith("/api/comments") ||
+      request.nextUrl.pathname.startsWith("/api/users/profile") ||
+      (request.nextUrl.pathname.startsWith("/api/posts") &&
+        request.method === "POST")
+    ) {
       //   it will work for delete only as if matchere has many route handlers
       // as get post patch so this middleware will not work for
       return NextResponse.json(
@@ -28,6 +33,12 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/users/profile/:path*", "/login", "/signup"],
+  matcher: [
+    "/api/users/profile/:path*",
+    "/login",
+    "/signup",
+    "/api/posts/:path*",
+    "/api/comments/:path*",
+  ],
   // / means home page only
 };

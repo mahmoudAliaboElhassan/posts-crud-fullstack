@@ -73,3 +73,41 @@ export const updateUserSchema = z.object({
     })
     .optional(),
 });
+export const addPost = z.object({
+  title: z
+    .string({
+      required_error: "title is required",
+      invalid_type_error: "title should be of type string",
+    })
+    .min(2)
+    .max(100),
+  description: z
+    .string({
+      required_error: "description should be string",
+      invalid_type_error: "description should be of type string",
+    })
+    .min(2)
+    .max(200),
+});
+export const addComment = z.object({
+  text: z
+    .string({
+      required_error: "Comment Text is required",
+      invalid_type_error: "Comment Text should be of type string",
+    })
+    .min(2)
+    .max(100),
+  postId: z.number({
+    required_error: "PostId is required",
+    invalid_type_error: "PostId should be of type number",
+  }),
+});
+export const updateCommentSchema = z.object({
+  text: z
+    .string({
+      required_error: "Comment Text is required",
+      invalid_type_error: "Comment Text should be of type string",
+    })
+    .min(2)
+    .max(100),
+});

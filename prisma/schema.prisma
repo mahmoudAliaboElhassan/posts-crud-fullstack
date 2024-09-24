@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,6 +6,7 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 model User {
   id        Int       @id @default(autoincrement())
   email     String    @unique
@@ -21,6 +16,7 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   comments  Comment[]
+  posts     Post[]
 }
 
 model Post {
@@ -30,6 +26,8 @@ model Post {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   comments    Comment[]
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade) // Corrected relation to User
 }
 
 model Comment {
@@ -37,12 +35,9 @@ model Comment {
   text      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  postId Int
-  // one to many
-  post   Post  @relation(fields: [postId], references: [id],onDelete: Cascade)
-  // after fields it refer to this model
-  // what after references refer to model that is written first
-
-  userId Int
-  users  User @relation(fields: [userId], references: [id],onDelete: Cascade)
+  postId    Int
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Renamed from 'users' to 'user'
 }

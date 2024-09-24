@@ -12,3 +12,14 @@ export interface updateUserDTO {
   email?: string;
   password?: string;
 }
+export interface PostDTO {
+  title: string;
+  description: string;
+}
+export interface addCommentDTO {
+  text: string;
+  postId: number;
+}
+export interface updateCommentDTO {
+  text: string;
+}

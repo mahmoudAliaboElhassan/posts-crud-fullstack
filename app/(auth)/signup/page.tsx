@@ -6,8 +6,7 @@ import Link from "next/link";
 function SignUp() {
   return (
     <>
-      {" "}
-      <div>SignUp</div>;
+      <div>SignUp</div>
       <SignUpForm />
       <div>
         Already have account <Link href="/login">Login</Link>
