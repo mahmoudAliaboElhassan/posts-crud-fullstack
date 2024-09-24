@@ -110,3 +110,39 @@ export async function PUT(request: NextRequest, { params }: Props) {
     return NextResponse.json("Internal Server Error", { status: 500 });
   }
 }
+
+export async function GET(request: NextRequest, { params }: Props) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: parseInt(params.id),
+      },
+      select: {
+        username: true,
+        email: true,
+        createdAt: true,
+        id: true,
+      },
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { message: "User does not Exists" },
+        { status: 404 }
+      );
+    }
+
+    const jwtPayload = verifyToken(request);
+    if (!jwtPayload || jwtPayload.id !== user.id) {
+      return NextResponse.json(
+        {
+          message: "forbidden you can not get this user detials",
+        },
+        { status: 403 }
+      );
+    }
+    return NextResponse.json(user, { status: 200 });
+  } catch (error) {
+    return NextResponse.json("Internal Server Error", { status: 500 });
+  }
+}

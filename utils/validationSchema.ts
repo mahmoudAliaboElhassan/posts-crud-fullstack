@@ -68,7 +68,8 @@ export const updateUserSchema = z.object({
     })
     .min(6, { message: "password should be at least 6 characters long" })
     .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/, {
-      message: "password must contain at least one letter and one number",
+      message:
+        "password must contain at least one letter and one number from server",
     })
     .optional(),
 });

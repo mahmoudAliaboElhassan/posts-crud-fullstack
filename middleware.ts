@@ -16,9 +16,11 @@ export function middleware(request: NextRequest) {
       );
     }
   } else {
+    console.log("token ok");
+    console.log(request.nextUrl.pathname);
     if (
-      request.nextUrl.pathname === "/loginPage" ||
-      request.nextUrl.pathname === "/registerPage"
+      request.nextUrl.pathname === "/login" ||
+      request.nextUrl.pathname === "/signup"
     ) {
       return NextResponse.redirect(new URL("/", request.url));
     }
@@ -26,6 +28,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/users/profile/:path*", "/loginPage", "/registerPage"],
+  matcher: ["/api/users/profile/:path*", "/login", "/signup"],
   // / means home page only
 };
