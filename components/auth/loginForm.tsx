@@ -13,8 +13,8 @@ import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
 
 function LoginForm() {
-  const { INITIAL_FORM_STATE_LOGIN } = UseInitialValues();
-  const { FORM_VALIDATION_SCHEMA_Login } = UseFormValidation();
+  const { INITIAL_FORM_STATE_LOGIN } = UseInitialValues({});
+  const { FORM_VALIDATION_SCHEMA_LOGIN } = UseFormValidation();
   const [Loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   return (
@@ -22,7 +22,7 @@ function LoginForm() {
       initialValues={{
         ...INITIAL_FORM_STATE_LOGIN,
       }}
-      validationSchema={FORM_VALIDATION_SCHEMA_Login}
+      validationSchema={FORM_VALIDATION_SCHEMA_LOGIN}
       onSubmit={async (values) => {
         setLoading(true);
         try {

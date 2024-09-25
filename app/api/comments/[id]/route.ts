@@ -18,6 +18,14 @@ export async function PUT(request: NextRequest, { params }: Props) {
         id: parseInt(params.id),
       },
     });
+
+    if (!comment) {
+      return NextResponse.json(
+        { message: "Comment not Found" },
+        { status: 404 }
+      );
+    }
+
     if (!jwtPayload || jwtPayload.id !== comment?.userId) {
       return NextResponse.json(
         { message: "forbiddn can not update this comment" },

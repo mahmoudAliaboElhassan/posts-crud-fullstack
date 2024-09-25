@@ -13,7 +13,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
 
 function LoginForm() {
-  const { INITIAL_FORM_STATE_SIGNUP } = UseInitialValues();
+  const { INITIAL_FORM_STATE_SIGNUP } = UseInitialValues({});
   const { FORM_VALIDATION_SCHEMA_SIGNUP } = UseFormValidation();
   const [Loading, setLoading] = useState<boolean>(false);
   const router = useRouter();

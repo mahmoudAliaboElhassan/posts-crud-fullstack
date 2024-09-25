@@ -111,3 +111,21 @@ export const updateCommentSchema = z.object({
     .min(2)
     .max(100),
 });
+export const updatePostSchema = z.object({
+  title: z
+    .string({
+      required_error: "title is required",
+      invalid_type_error: "title should be of type string",
+    })
+    .min(2)
+    .max(100)
+    .optional(),
+  description: z
+    .string({
+      required_error: "description should be string",
+      invalid_type_error: "description should be of type string",
+    })
+    .min(2)
+    .max(200)
+    .optional(),
+});

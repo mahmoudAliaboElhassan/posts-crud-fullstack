@@ -12,6 +12,17 @@ export async function GET(request: NextRequest) {
       where: {
         userId: jWTPayload?.id,
       },
+      include: {
+        comments: {
+          include: {
+            user: {
+              select: {
+                username: true,
+              },
+            },
+          },
+        },
+      },
     });
     return NextResponse.json(posts, { status: 200 });
   } catch (error) {

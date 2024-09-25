@@ -23,3 +23,7 @@ export interface addCommentDTO {
 export interface updateCommentDTO {
   text: string;
 }
+export interface updatePostDTO {
+  title?: string;
+  description?: string;
+}
