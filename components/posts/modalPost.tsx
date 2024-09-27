@@ -3,16 +3,16 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import "./modal.css";
+import "../modal.css";
 import { Post } from "@prisma/client";
 import { Form, Formik } from "formik";
-import ButtonWrapper from "./formUi/submitButton";
+import ButtonWrapper from "../formUi/submitButton";
 import UseFormValidation from "@/hooks/use-form-validatio";
 import UseInitialValues from "@/hooks/use-inital-values";
 import toast from "react-hot-toast";
 import axiosInstance from "@/utils/axiosInstance";
 import Swal from "sweetalert2";
-import TextFieldWrapper from "./formUi/textField";
+import TextFieldWrapper from "../formUi/textField";
 
 interface Props {
   show: boolean;

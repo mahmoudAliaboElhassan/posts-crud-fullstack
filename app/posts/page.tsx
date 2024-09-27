@@ -1,5 +1,5 @@
 import React from "react";
-import PostsTable from "@/components/postsTable";
+import PostsTable from "@/components/posts/postsTable";
 import PaginationBasic from "@/components/pagination";
 import PagesPagination from "@/components/pagination";
 

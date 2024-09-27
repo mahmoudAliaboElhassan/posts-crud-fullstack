@@ -6,6 +6,9 @@ import Table from "react-bootstrap/Table";
 import ModalUpdatePost from "./modalPost";
 import { Button } from "react-bootstrap";
 import Link from "next/link";
+import Swal from "sweetalert2";
+import toast from "react-hot-toast";
+import "../alert.css";
 
 function PostsTable() {
   const [posts, setPosts] = useState<Post[]>();
@@ -29,6 +32,41 @@ function PostsTable() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleDelete = (id: number) => {
+    Swal.fire({
+      title: "Are you sure",
+      text: "do you want to delete this post",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Delete Post",
+      cancelButtonText: "Cancel Delete",
+      customClass: {
+        confirmButton: "red-confirm-button swal2-confirm",
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axiosInstance.delete(`/api/posts/${id}`);
+          toast.success("Post has been Deleted Successfully!");
+        } catch (error) {
+          console.log(error);
+          Swal.fire({
+            title: "Error in Adding Post",
+            text: error.response.data.message,
+            icon: "error",
+            confirmButtonText: "ok",
+          });
+        }
+      } else {
+        Swal.fire({
+          title: "Post Still Exists",
+          icon: "info",
+          confirmButtonText: "Ok",
+        });
+      }
+    });
   };
 
   useEffect(() => {
@@ -63,6 +101,9 @@ function PostsTable() {
               <th colSpan={2} style={{ textAlign: "center" }}>
                 Add Comment
               </th>
+              <th colSpan={2} style={{ textAlign: "center" }}>
+                Delete
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -87,6 +128,13 @@ function PostsTable() {
                     <Button variant="primary">
                       <Link href={`/comments/add/${post.id}`}>Add Comment</Link>
                     </Button>
+                  </td>
+                  <td
+                    colSpan={2}
+                    style={{ textAlign: "center" }}
+                    onClick={() => handleDelete(post.id)}
+                  >
+                    <Button variant="danger">Delete Post</Button>
                   </td>
                 </tr>
               </>
