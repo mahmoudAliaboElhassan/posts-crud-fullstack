@@ -50,7 +50,7 @@ function PostsTable() {
         try {
           const res = await axiosInstance.delete(`/api/posts/${id}`);
           toast.success("Post has been Deleted Successfully!");
-        } catch (error) {
+        } catch (error: any) {
           console.log(error);
           Swal.fire({
             title: "Error in Adding Post",

@@ -1,7 +1,19 @@
-import React from "react";
+import UserPosts from "@/components/posts/user-posts";
+import { Metadata } from "next";
+import React, { useEffect } from "react";
 
-function UserPosts() {
-  return <div>UserPosts</div>;
+export const metadata: Metadata = {
+  title: "User Posts - Posts CRUD",
+  description: "View and manage all posts created by the user on Posts CRUD.",
+};
+
+function UserPostsPage() {
+  return (
+    <>
+      <div>UserPosts</div>;
+      <UserPosts />
+    </>
+  );
 }
 
-export default UserPosts;
+export default UserPostsPage;
