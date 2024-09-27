@@ -1,5 +1,6 @@
 import React from "react";
 import { useFormikContext } from "formik";
+import { Button } from "react-bootstrap";
 
 interface Props {
   children: React.ReactNode;
@@ -22,7 +23,7 @@ const ButtonWrapper = ({ children, loading }: Props) => {
     onClick: handleSubmit,
   };
 
-  return <button {...configButton}>{loading ? "loading..." : children}</button>;
+  return <Button {...configButton}>{loading ? "loading..." : children}</Button>;
 };
 
 export default ButtonWrapper;

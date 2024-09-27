@@ -22,6 +22,7 @@ export async function GET(request: NextRequest, { params }: Props) {
             user: {
               select: {
                 username: true,
+                email: true,
               },
             },
           },

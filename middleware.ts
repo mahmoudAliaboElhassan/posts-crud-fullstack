@@ -8,6 +8,7 @@ export function middleware(request: NextRequest) {
   if (!token) {
     if (
       request.nextUrl.pathname.startsWith("/api/comments") ||
+      request.nextUrl.pathname.startsWith("/api/users/password") ||
       request.nextUrl.pathname.startsWith("/api/users/profile") ||
       (request.nextUrl.pathname.startsWith("/api/posts") &&
         request.method === "POST")
@@ -35,6 +36,7 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/api/users/profile/:path*",
+    "/api/users/password/:path*",
     "/login",
     "/signup",
     "/api/posts/:path*",

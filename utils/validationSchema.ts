@@ -129,3 +129,25 @@ export const updatePostSchema = z.object({
     .max(200)
     .optional(),
 });
+export const updateUserPassword = z.object({
+  currentPassword: z
+    .string({
+      required_error: "Current Password is required",
+      invalid_type_error: "Current Password should be of type string",
+    })
+    .min(6, { message: "password should be at least 6 characters long" })
+    .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/, {
+      message:
+        "password must contain at least one letter and one number from server",
+    }),
+  newPassword: z
+    .string({
+      required_error: "New Password is required",
+      invalid_type_error: "New Password should be of type string",
+    })
+    .min(6, { message: "password should be at least 6 characters long" })
+    .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/, {
+      message:
+        "password must contain at least one letter and one number from server",
+    }),
+});

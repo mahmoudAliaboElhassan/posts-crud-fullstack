@@ -29,6 +29,10 @@ function UseInitialValues(props: Props) {
   const INITIAL_FORM_UPDATE_COMMENT = {
     text: props.text,
   };
+  const INITIAL_FORM_CHANGE_PASSWORD = {
+    currentPassword: "",
+    newPassword: "",
+  };
 
   return {
     INITIAL_FORM_STATE_LOGIN,
@@ -37,6 +41,7 @@ function UseInitialValues(props: Props) {
     INITIAL_FORM_ADD_COMMENT,
     INITIAL_FORM_UPDATE_POST,
     INITIAL_FORM_UPDATE_COMMENT,
+    INITIAL_FORM_CHANGE_PASSWORD,
   };
 }
 export default UseInitialValues;

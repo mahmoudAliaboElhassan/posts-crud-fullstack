@@ -81,6 +81,22 @@ function UseFormValidation() {
       .min(2, "Minimum number of chars is 2")
       .max(100, "Maximum number of chars is 100"),
   });
+  const FORM_VALIDATION_CHANGE_PASSWORD = Yup.object().shape({
+    currentPassword: Yup.string()
+      .required("Password Field is required")
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
+        "Password must contain at least one letter and one number"
+      )
+      .min(6, "Minimum Number of Chars is 6"),
+    newPassword: Yup.string()
+      .required("Password Field is required")
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
+        "Password must contain at least one letter and one number"
+      )
+      .min(6, "Minimum Number of Chars is 6"),
+  });
 
   return {
     FORM_VALIDATION_SCHEMA_LOGIN,
@@ -89,6 +105,7 @@ function UseFormValidation() {
     FORM_VALIDATION_ADD_COMMENT,
     FORM_VALIDATION_UPDATE_POST,
     FORM_VALIDATION_UPDATE_COMMENT,
+    FORM_VALIDATION_CHANGE_PASSWORD,
   };
 }
 

@@ -37,8 +37,8 @@ export const SetCookie = (token: string): string => {
     // for article page
     // "/" all pages
 
-    maxAge: 60 * 60 * 24 * 30,
-    // 30 days
+    maxAge: 60 * 60 * 3,
+    // 3 hours
   });
   return cookie;
 };

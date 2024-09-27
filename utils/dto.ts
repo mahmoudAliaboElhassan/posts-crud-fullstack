@@ -27,3 +27,7 @@ export interface updatePostDTO {
   title?: string;
   description?: string;
 }
+export interface updatePasswordDTO {
+  currentPassword: string;
+  newPassword: string;
+}

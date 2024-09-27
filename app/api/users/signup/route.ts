@@ -48,19 +48,19 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const tokenPayload: JWTPayload = {
-      username: newUser.username,
-      id: newUser.id,
-      isAdmin: newUser.isAdmin,
-    };
-    const token = generateJWT(tokenPayload);
+    // const tokenPayload: JWTPayload = {
+    //   username: newUser.username,
+    //   id: newUser.id,
+    //   isAdmin: newUser.isAdmin,
+    // };
+    // const token = generateJWT(tokenPayload);
 
-    const cookie = SetCookie(token);
+    // const cookie = SetCookie(token);
     return NextResponse.json(
       { message: "User Created Successfully " },
       {
         status: 201,
-        headers: { "Set-Cookie": cookie },
+        // headers: { "Set-Cookie": cookie },
       }
     );
   } catch (error) {
