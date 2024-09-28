@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import Swal from "sweetalert2";
 
 import ButtonWrapper from "@/components/formUi/submitButton";
@@ -11,6 +11,7 @@ import UseFormValidation from "@/hooks/use-form-validatio";
 import UseInitialValues from "@/hooks/use-inital-values";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
+import { Container, Form } from "react-bootstrap";
 
 function LoginForm() {
   const { INITIAL_FORM_STATE_LOGIN } = UseInitialValues({});
@@ -42,11 +43,13 @@ function LoginForm() {
         }
       }}
     >
-      <Form>
-        <TextFieldWrapper name="email" label="Email" />
-        <TextFieldWrapper name="password" label="Password" />
-        <ButtonWrapper loading={Loading}>login</ButtonWrapper>
-      </Form>
+      <Container>
+        <Form>
+          <TextFieldWrapper name="email" label="Email" />
+          <TextFieldWrapper name="password" label="Password" />
+          <ButtonWrapper loading={Loading}>login</ButtonWrapper>
+        </Form>
+      </Container>
     </Formik>
   );
 }

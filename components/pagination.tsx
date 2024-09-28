@@ -1,28 +1,41 @@
 "use client";
-import Link from "next/link";
+import { POSTS_PER_PAGE } from "@/utils/constants";
+import { useSearchParams, useRouter } from "next/navigation";
 import Pagination from "react-bootstrap/Pagination";
 
 interface Props {
-  pageNumber: string;
+  count: number;
 }
 
-function PagesPagination({ pageNumber }: Props) {
-  let active = 2;
+function PagesPagination({ count }: Props) {
+  const countOfPosts = Math.ceil(count / POSTS_PER_PAGE);
+
   let items: any[] = [];
-  for (let number = 1; number <= 5; number++) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const currentPage = parseInt(searchParams.get("pageNumber") || "1");
+
+  const handlePageClick = (number: number): any => {
+    router.push(`/posts?pageNumber=${number}`);
+  };
+
+  for (let number = 1; number <= countOfPosts; number++) {
     items.push(
-      <Pagination.Item active={number === parseInt(pageNumber)}>
-        {/* <Link key={number} href={`/posts?pageNumber=${number}`} passHref> */}
+      <Pagination.Item
+        key={number}
+        active={number === currentPage}
+        onClick={() => handlePageClick(number)}
+      >
         {number}
-        {/* </Link> */}
       </Pagination.Item>
     );
   }
+
   return (
-    <div>
-      <Pagination>{items}</Pagination>
-      <br />
-    </div>
+    <Pagination style={{ width: "fit-content", margin: "auto" }}>
+      {items}
+    </Pagination>
   );
 }
 

@@ -11,6 +11,7 @@ import UseFormValidation from "@/hooks/use-form-validatio";
 import UseInitialValues from "@/hooks/use-inital-values";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
+import { Container } from "react-bootstrap";
 
 interface Props {
   postId: number;
@@ -38,7 +39,7 @@ function AddCommentForm({ postId }: Props) {
           });
           toast.success("Comment has been added Successfully!");
           console.log(user.data);
-          router.push("/");
+          router.push("/posts");
           setLoading(false);
         } catch (error: any) {
           setLoading(false);
@@ -51,10 +52,12 @@ function AddCommentForm({ postId }: Props) {
         }
       }}
     >
-      <Form>
-        <TextFieldWrapper name="text" label="Text" />
-        <ButtonWrapper loading={Loading}>Add Comment</ButtonWrapper>
-      </Form>
+      <Container>
+        <Form>
+          <TextFieldWrapper name="text" label="Text" />
+          <ButtonWrapper loading={Loading}>Add Comment</ButtonWrapper>
+        </Form>
+      </Container>
     </Formik>
   );
 }

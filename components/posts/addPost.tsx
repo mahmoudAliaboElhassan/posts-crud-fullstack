@@ -11,6 +11,7 @@ import UseFormValidation from "@/hooks/use-form-validatio";
 import UseInitialValues from "@/hooks/use-inital-values";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
+import { Container } from "react-bootstrap";
 
 function AddPostForm() {
   const { INITIAL_FORM_ADD_POST } = UseInitialValues({});
@@ -42,11 +43,13 @@ function AddPostForm() {
         }
       }}
     >
-      <Form>
-        <TextFieldWrapper name="title" label="Title" />
-        <TextFieldWrapper name="description" label="description" />
-        <ButtonWrapper loading={Loading}>Add Post</ButtonWrapper>
-      </Form>
+      <Container>
+        <Form>
+          <TextFieldWrapper name="title" label="Title" />
+          <TextFieldWrapper name="description" label="description" />
+          <ButtonWrapper loading={Loading}>Add Post</ButtonWrapper>
+        </Form>
+      </Container>
     </Formik>
   );
 }

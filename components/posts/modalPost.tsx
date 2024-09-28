@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import axiosInstance from "@/utils/axiosInstance";
 import Swal from "sweetalert2";
 import TextFieldWrapper from "../formUi/textField";
+import { useRouter } from "next/navigation";
 
 interface Props {
   show: boolean;
@@ -22,7 +23,7 @@ interface Props {
 
 function ModalUpdatePost({ show, handleClose, postData }: Props) {
   console.log("postData", postData);
-
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const { FORM_VALIDATION_UPDATE_POST } = UseFormValidation();
   // const router = useRouter();
@@ -55,6 +56,7 @@ function ModalUpdatePost({ show, handleClose, postData }: Props) {
                   toast.success("Post is Updated Successfully!");
                   console.log(post.data);
                   setLoading(false);
+                  router.refresh();
                   handleClose();
                 } catch (error: any) {
                   handleClose();

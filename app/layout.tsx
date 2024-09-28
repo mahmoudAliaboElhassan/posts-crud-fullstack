@@ -6,6 +6,8 @@ import "./globals.css";
 import Header from "@/components/header";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/footer";
+import { cookies } from "next/headers";
+import { verifyTokenForPage } from "@/utils/verifyToken";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,10 +30,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookie = cookies().get("jwtToken")?.value || "";
+  const payload = verifyTokenForPage(cookie);
   return (
     <html lang="en">
       <body>
-        <Header />
+        <Header payload={payload} />
         <Toaster position="top-right" />
         {children}
         <Footer />

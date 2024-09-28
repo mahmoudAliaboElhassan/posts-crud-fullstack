@@ -10,7 +10,7 @@ import TextFieldWrapper from "@/components/formUi/textField";
 import UseFormValidation from "@/hooks/use-form-validatio";
 import UseInitialValues from "@/hooks/use-inital-values";
 import axiosInstance from "@/utils/axiosInstance";
-import { useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { Post } from "@prisma/client";
 
 interface Props {
@@ -42,6 +42,7 @@ function UpdatePost({ params }: Props) {
         console.log(postData);
         setLoadingPostData(false);
       } catch (error) {
+        notFound();
         setLoadingPostData(false);
       }
     };
@@ -83,7 +84,7 @@ function UpdatePost({ params }: Props) {
           <Form>
             <TextFieldWrapper name="title" label="Title" />
             <TextFieldWrapper name="description" label="description" />
-            <ButtonWrapper loading={Loading}>Add Post</ButtonWrapper>
+            <ButtonWrapper loading={Loading}>Update Post</ButtonWrapper>
           </Form>
         </Formik>
       )}

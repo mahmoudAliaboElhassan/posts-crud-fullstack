@@ -9,6 +9,7 @@ import ModalUpdateComment from "../comments/modalComment";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import "../alert.css";
+import { useRouter } from "next/navigation";
 
 interface Props {
   postId: string;
@@ -18,7 +19,7 @@ function PostData({ postId }: Props) {
   const [show, setShow] = useState<boolean>(false);
   const handleClose = () => setShow(false);
   const [postData, setPostData] = useState<SinglePost>();
-
+  const router = useRouter();
   const [commentId, setCommentId] = useState<number>();
   const [commentData, setCommentData] = useState<Comment>();
 
@@ -37,8 +38,9 @@ function PostData({ postId }: Props) {
       if (result.isConfirmed) {
         try {
           const res = await axiosInstance.delete(`/api/comments/${id}`);
+          router.refresh();
           toast.success("Comment has been Deleted Successfully!");
-        } catch (error) {
+        } catch (error: any) {
           Swal.fire({
             title: "Error in Adding Post",
             text: error.response.data.message,

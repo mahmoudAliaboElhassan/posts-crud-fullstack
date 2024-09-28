@@ -10,13 +10,18 @@ export const metadata: Metadata = {
   title: "All Posts - Posts CRUD",
   description: "Browse and explore all posts with easy pagination on MyApp.",
 };
+interface ArticlePageNumber {
+  searchParams: {
+    pageNumber?: string; // `pageNumber` is optional and may be undefined
+  };
+}
+function AllPosts({ searchParams }: ArticlePageNumber) {
+  const pageNumber = searchParams.pageNumber || "1";
 
-function AllPosts() {
   return (
     <div>
       {/* <!-- Button trigger modal --> */}
-      <PostsTable />
-      <PagesPagination pageNumber={"3"} />
+      <PostsTable pageNumber={pageNumber} />
     </div>
   );
 }

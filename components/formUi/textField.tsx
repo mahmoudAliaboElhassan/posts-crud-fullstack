@@ -16,7 +16,7 @@ const TextFieldWrapper = ({ name, type, label }: Props) => {
   const configTextField: React.InputHTMLAttributes<HTMLInputElement> = {
     type: "text",
     ...field, // Spread the field to include value, onChange, onBlur
-    id: label,
+    placeholder: `Enter ${label}`,
     style:
       meta && meta.touched && meta.error ? { border: "2px solid red" } : {},
   };
@@ -29,13 +29,15 @@ const TextFieldWrapper = ({ name, type, label }: Props) => {
 
   return (
     <>
-      <label htmlFor={label}>{label}</label>
-      <Form.Control {...configTextField} />
-      {meta && meta.touched && meta.error ? (
-        <span id="error-message" style={{ color: "red" }}>
-          {meta.error}
-        </span>
-      ) : null}
+      <Form.Group className="mb-3" controlId={label}>
+        <Form.Label>{label}</Form.Label>
+        <Form.Control {...configTextField} />
+        {meta && meta.touched && meta.error ? (
+          <span id="error-message" style={{ color: "red" }}>
+            {meta.error}
+          </span>
+        ) : null}
+      </Form.Group>
     </>
   );
 };
