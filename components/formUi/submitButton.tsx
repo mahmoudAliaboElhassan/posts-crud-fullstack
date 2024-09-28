@@ -21,6 +21,7 @@ const ButtonWrapper = ({ children, loading }: Props) => {
     type: "submit",
     disabled: loading,
     onClick: handleSubmit,
+    style: { margin: "auto", display: "flex" },
   };
 
   return <Button {...configButton}>{loading ? "loading..." : children}</Button>;

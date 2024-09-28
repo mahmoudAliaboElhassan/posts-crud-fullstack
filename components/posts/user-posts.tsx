@@ -12,15 +12,18 @@ export const metadata: Metadata = {
 
 function UserPosts() {
   const [userPosts, setUserPosts] = useState<SinglePost[]>();
-
+  const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     const getUserPosts = async () => {
+      setLoading(true);
       try {
         const res = await axiosInstance.get("/api/posts/user");
         setUserPosts(res.data);
         console.log(res.data);
+        setLoading(false);
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     };
     getUserPosts();

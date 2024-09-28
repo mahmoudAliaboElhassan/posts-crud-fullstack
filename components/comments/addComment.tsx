@@ -12,6 +12,7 @@ import UseInitialValues from "@/hooks/use-inital-values";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
 import { Container } from "react-bootstrap";
+import styles from "../form.module.css";
 
 interface Props {
   postId: number;
@@ -52,7 +53,7 @@ function AddCommentForm({ postId }: Props) {
         }
       }}
     >
-      <Container>
+      <Container className={styles.formWrapper}>
         <Form>
           <TextFieldWrapper name="text" label="Text" />
           <ButtonWrapper loading={Loading}>Add Comment</ButtonWrapper>

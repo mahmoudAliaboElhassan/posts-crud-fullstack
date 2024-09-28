@@ -102,10 +102,12 @@ function PostsTable({ pageNumber }: Props) {
         <div>loading</div>
       ) : (
         <Container fluid="lg">
-          <Table striped bordered hover size="md">
+          <Table striped="columns" bordered hover size="md">
             <thead>
               <tr>
-                <th>Title</th>
+                <th className="text-center" style={{ verticalAlign: "middle" }}>
+                  Title
+                </th>
                 <th colSpan={2} style={{ textAlign: "center" }}>
                   View
                 </th>
@@ -125,9 +127,14 @@ function PostsTable({ pageNumber }: Props) {
                 <>
                   {" "}
                   <tr>
-                    <td>{post.title}</td>
+                    <td
+                      className="text-center"
+                      style={{ verticalAlign: "middle" }}
+                    >
+                      {post.title}
+                    </td>
                     <td colSpan={2} style={{ textAlign: "center" }}>
-                      <Button variant="secondary">
+                      <Button variant="success">
                         <Link href={`/posts/${post.id}`}>View</Link>
                       </Button>
                     </td>
@@ -139,8 +146,11 @@ function PostsTable({ pageNumber }: Props) {
                       <Button variant="primary">Edit</Button>
                     </td>
                     <td colSpan={2} style={{ textAlign: "center" }}>
-                      <Button variant="primary">
-                        <Link href={`/comments/add/${post.id}`}>
+                      <Button variant="secondary">
+                        <Link
+                          href={`/comments/add/${post.id}`}
+                          style={{ color: "white" }}
+                        >
                           Add Comment
                         </Link>
                       </Button>

@@ -5,7 +5,6 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import LogOut from "./auth/logOut";
 import { JWTPayload } from "@/utils/types";
 import profileImage from "../assets/profile-candidate.png";
 import Image from "next/image";
@@ -14,6 +13,7 @@ import { usePathname, useRouter } from "next/navigation";
 import axiosInstance from "@/utils/axiosInstance";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 interface Props {
   payload: JWTPayload | null;
@@ -47,7 +47,13 @@ const Header = ({ payload }: Props) => {
       <Navbar
         expand="lg"
         className="bg-body-tertiary"
-        style={{ position: "fixed", left: 0, top: 0, width: "100%" }}
+        style={{
+          position: "fixed",
+          left: 0,
+          top: 0,
+          width: "100%",
+          zIndex: "999",
+        }}
       >
         <Container>
           <Navbar.Brand href="/">Posts CRUD</Navbar.Brand>
@@ -55,24 +61,26 @@ const Header = ({ payload }: Props) => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               {headerElements.map(({ href, label }) => (
-                <Nav.Link
-                  href={href}
+                <Nav.Item
                   style={{
                     display: "flex",
                     alignItems: "center",
                     fontWeight: href === pathname ? "bold" : "inherit",
+                    color: "black",
+                    marginRight: "8px",
+                    marginLeft: "8px",
                   }}
                 >
-                  {label}
-                </Nav.Link>
+                  <Link href={href}>{label}</Link>
+                </Nav.Item>
               ))}
               <NavDropdown
                 title={
                   <Image
                     src={profileImage}
                     alt="User Icon"
-                    width={30}
-                    height={30}
+                    width={25}
+                    height={25}
                   />
                 }
                 id="basic-nav-dropdown"
@@ -82,6 +90,7 @@ const Header = ({ payload }: Props) => {
                     <NavDropdown.Item href="/change-password">
                       Change Password
                     </NavDropdown.Item>
+                    <NavDropdown.Divider />
                     <NavDropdown.Item onClick={handleLogOut}>
                       LogOut{" "}
                     </NavDropdown.Item>

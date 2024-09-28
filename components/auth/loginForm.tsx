@@ -12,6 +12,7 @@ import UseInitialValues from "@/hooks/use-inital-values";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
 import { Container, Form } from "react-bootstrap";
+import styles from "../form.module.css";
 
 function LoginForm() {
   const { INITIAL_FORM_STATE_LOGIN } = UseInitialValues({});
@@ -43,7 +44,7 @@ function LoginForm() {
         }
       }}
     >
-      <Container>
+      <Container fluid="md" className={styles.formWrapper}>
         <Form>
           <TextFieldWrapper name="email" label="Email" />
           <TextFieldWrapper name="password" label="Password" />

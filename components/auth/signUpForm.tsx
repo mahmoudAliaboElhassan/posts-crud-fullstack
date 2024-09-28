@@ -1,17 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
+
 import { toast } from "react-hot-toast";
 import { Formik } from "formik";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
+import { Container, Form } from "react-bootstrap";
 
 import ButtonWrapper from "@/components/formUi/submitButton";
 import TextFieldWrapper from "@/components/formUi/textField";
 import UseFormValidation from "@/hooks/use-form-validatio";
 import UseInitialValues from "@/hooks/use-inital-values";
 import axiosInstance from "@/utils/axiosInstance";
-import { useRouter } from "next/navigation";
-import { Container, Form } from "react-bootstrap";
+import styles from "../form.module.css";
 
 function LoginForm() {
   const { INITIAL_FORM_STATE_SIGNUP } = UseInitialValues({});
@@ -44,15 +46,17 @@ function LoginForm() {
         }
       }}
     >
-      <Container>
-        <Form>
-          <TextFieldWrapper name="username" label="User Name" />
-          <TextFieldWrapper name="email" label="Email" />
-          <TextFieldWrapper name="password" label="Password" />
-          <TextFieldWrapper name="confirmPassword" label="Confirm Password" />
-          <ButtonWrapper loading={Loading}>SignUp</ButtonWrapper>
-        </Form>
-      </Container>
+      <div style={{ position: "relative", height: "100vh" }}>
+        <Container className={styles.formWrapper}>
+          <Form>
+            <TextFieldWrapper name="username" label="User Name" />
+            <TextFieldWrapper name="email" label="Email" />
+            <TextFieldWrapper name="password" label="Password" />
+            <TextFieldWrapper name="confirmPassword" label="Confirm Password" />
+            <ButtonWrapper loading={Loading}>SignUp</ButtonWrapper>
+          </Form>
+        </Container>
+      </div>
     </Formik>
   );
 }

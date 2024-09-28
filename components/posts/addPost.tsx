@@ -12,6 +12,7 @@ import UseInitialValues from "@/hooks/use-inital-values";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
 import { Container } from "react-bootstrap";
+import styles from "../form.module.css";
 
 function AddPostForm() {
   const { INITIAL_FORM_ADD_POST } = UseInitialValues({});
@@ -43,7 +44,7 @@ function AddPostForm() {
         }
       }}
     >
-      <Container>
+      <Container className={styles.formWrapper}>
         <Form>
           <TextFieldWrapper name="title" label="Title" />
           <TextFieldWrapper name="description" label="description" />

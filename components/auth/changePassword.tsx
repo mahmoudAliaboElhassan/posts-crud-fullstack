@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { verifyTokenForPage } from "@/utils/verifyToken";
 import { JWTPayload } from "@/utils/types";
 import { Container } from "react-bootstrap";
+import styles from "../form.module.css";
 
 interface Props {
   jwtPayload: JWTPayload;
@@ -54,7 +55,7 @@ function ChangePasswordForm({ jwtPayload }: Props) {
         }
       }}
     >
-      <Container>
+      <Container className={styles.formWrapper}>
         <Form>
           <TextFieldWrapper name="currentPassword" label="Current Password" />
           <TextFieldWrapper name="newPassword" label="New Password" />
