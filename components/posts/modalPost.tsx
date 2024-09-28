@@ -14,6 +14,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import Swal from "sweetalert2";
 import TextFieldWrapper from "../formUi/textField";
 import { useRouter } from "next/navigation";
+import LoadingFetching from "../loadingData";
 
 interface Props {
   show: boolean;
@@ -33,13 +34,13 @@ function ModalUpdatePost({ show, handleClose, postData }: Props) {
   });
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Change Post Data</Modal.Title>
-        </Modal.Header>
-        {postData === undefined ? (
-          <div>wait for post data to load</div>
-        ) : (
+      {postData === undefined && show ? (
+        <LoadingFetching>Wait Posts Data to Load ...</LoadingFetching>
+      ) : (
+        <Modal show={show} onHide={handleClose} style={{ color: "black" }}>
+          <Modal.Header closeButton>
+            <Modal.Title>Change Post Data</Modal.Title>
+          </Modal.Header>
           <Modal.Body>
             <Formik
               initialValues={{
@@ -77,17 +78,8 @@ function ModalUpdatePost({ show, handleClose, postData }: Props) {
               </Form>
             </Formik>
           </Modal.Body>
-        )}
-
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        </Modal>
+      )}
     </>
   );
 }

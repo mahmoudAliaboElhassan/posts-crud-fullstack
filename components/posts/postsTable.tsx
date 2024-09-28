@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import "../alert.css";
 import { useRouter } from "next/navigation";
 import PagesPagination from "../pagination";
+import LoadingFetching from "../loadingData";
 
 interface Props {
   pageNumber: string;
@@ -99,7 +100,7 @@ function PostsTable({ pageNumber }: Props) {
   return (
     <>
       {loading ? (
-        <div>loading</div>
+        <LoadingFetching>Wait for all Posts to Load ...</LoadingFetching>
       ) : (
         <Container fluid="lg">
           <Table striped="columns" bordered hover size="md">
@@ -134,7 +135,7 @@ function PostsTable({ pageNumber }: Props) {
                       {post.title}
                     </td>
                     <td colSpan={2} style={{ textAlign: "center" }}>
-                      <Button variant="success">
+                      <Button variant="link" href={`/posts/${post.id}`}>
                         <Link href={`/posts/${post.id}`}>View</Link>
                       </Button>
                     </td>

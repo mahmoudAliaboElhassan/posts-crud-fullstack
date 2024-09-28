@@ -21,6 +21,20 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    const post = await prisma.post.findUnique({
+      where: {
+        id: body.postId,
+      },
+    });
+
+    if (!post) {
+      return NextResponse.json(
+        {
+          message: "Post you want to Add Comment to is Not Found",
+        },
+        { status: 404 }
+      );
+    }
 
     // Create comment
     const comment = await prisma.comment.create({

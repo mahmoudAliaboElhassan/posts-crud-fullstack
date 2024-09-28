@@ -1,12 +1,12 @@
 import React from "react";
-import NotFoundImage from "../../../../assets/not-found.png";
+import NotFoundImage from "@/assets/not-found.png";
 import { Container } from "react-bootstrap";
 import Image from "next/image";
-function NotFoundUpdatePost() {
+function NotFoundAddComment() {
   return (
     <Container>
       <h3 style={{ textAlign: "center", fontStyle: "italic" }}>
-        Post you want to update is not found
+        Post you want to Add Comment to is not found
       </h3>
       <Image
         width={500}
@@ -19,4 +19,4 @@ function NotFoundUpdatePost() {
   );
 }
 
-export default NotFoundUpdatePost;
+export default NotFoundAddComment;

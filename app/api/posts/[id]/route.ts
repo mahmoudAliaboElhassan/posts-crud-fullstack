@@ -29,6 +29,13 @@ export async function GET(request: NextRequest, { params }: Props) {
         },
       },
     });
+
+    if (!post) {
+      return NextResponse.json(
+        { message: "Post you Want to get its Data is not Found" },
+        { status: 404 }
+      );
+    }
     return NextResponse.json(post, { status: 200 });
   } catch (error) {
     return NextResponse.json("Internal Server Error", { status: 500 });

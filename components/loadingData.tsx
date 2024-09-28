@@ -1,7 +1,15 @@
 import React from "react";
-
-function LoadingFetching() {
-  return <div>LoadingFetching</div>;
+import "./loadingData.css";
+interface Props {
+  children: React.ReactNode;
+}
+function LoadingFetching({ children }: Props) {
+  return (
+    <div className="loader-container">
+      <div className="loader"></div>
+      <div className="text-loading">{children}</div>
+    </div>
+  );
 }
 
 export default LoadingFetching;

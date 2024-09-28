@@ -10,7 +10,7 @@ import TextFieldWrapper from "@/components/formUi/textField";
 import UseFormValidation from "@/hooks/use-form-validatio";
 import UseInitialValues from "@/hooks/use-inital-values";
 import axiosInstance from "@/utils/axiosInstance";
-import { useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { Container } from "react-bootstrap";
 import styles from "../form.module.css";
 
@@ -44,12 +44,18 @@ function AddCommentForm({ postId }: Props) {
           setLoading(false);
         } catch (error: any) {
           setLoading(false);
+          console.log(error);
+          if (error.status === 404) {
+            router.push(`/comments/add/${postId}/not-found`);
+          }
           Swal.fire({
-            title: "Error in Logging",
+            title: "Error in Adding Comment",
             text: error.response.data.message,
             icon: "error",
             confirmButtonText: "ok",
           });
+          // notFound();
+          // for server component
         }
       }}
     >

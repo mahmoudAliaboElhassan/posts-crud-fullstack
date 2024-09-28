@@ -14,6 +14,7 @@ import Swal from "sweetalert2";
 import TextFieldWrapper from "../formUi/textField";
 import ButtonWrapper from "../formUi/submitButton";
 import { useRouter } from "next/navigation"; // Correct hook for app directory
+import LoadingFetching from "../loadingData";
 
 interface Props {
   show: boolean;
@@ -30,12 +31,12 @@ function ModalUpdateComment({ show, handleClose, commentData }: Props) {
   });
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} style={{ color: "black" }}>
       <Modal.Header closeButton>
         <Modal.Title>Change Post Data</Modal.Title>
       </Modal.Header>
-      {commentData === undefined ? (
-        <div>wait for post data to load</div>
+      {commentData === undefined && show ? (
+        <LoadingFetching>Wait Comment Data to Load ...</LoadingFetching>
       ) : (
         <Modal.Body>
           <Formik
@@ -51,7 +52,7 @@ function ModalUpdateComment({ show, handleClose, commentData }: Props) {
                   values
                 );
                 // Trigger the router to refresh the page
-                router.push(`/posts/${commentData.postId}`); // Correct placement
+                router.refresh();
                 toast.success("Comment is Updated Successfully!");
                 setLoading(false);
                 handleClose();

@@ -56,7 +56,9 @@ const Header = ({ payload }: Props) => {
         }}
       >
         <Container>
-          <Navbar.Brand href="/">Posts CRUD</Navbar.Brand>
+          <Navbar.Brand>
+            <Link href="/">Posts CRUD</Link>
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
@@ -87,8 +89,8 @@ const Header = ({ payload }: Props) => {
               >
                 {payload ? (
                   <>
-                    <NavDropdown.Item href="/change-password">
-                      Change Password
+                    <NavDropdown.Item>
+                      <Link href="/change-password"> Change Password</Link>
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item onClick={handleLogOut}>
@@ -97,9 +99,13 @@ const Header = ({ payload }: Props) => {
                   </>
                 ) : (
                   <>
-                    <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                    <NavDropdown.Item>
+                      <Link href="/login">Login</Link>
+                    </NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item href="/signup">SignUp</NavDropdown.Item>
+                    <NavDropdown.Item>
+                      <Link href="/signup">SignUp</Link>
+                    </NavDropdown.Item>
                   </>
                 )}
               </NavDropdown>

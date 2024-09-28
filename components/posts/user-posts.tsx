@@ -4,6 +4,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import { SinglePost } from "@/utils/types";
 import { Metadata } from "next";
 import React, { useEffect, useState } from "react";
+import LoadingFetching from "../loadingData";
 
 export const metadata: Metadata = {
   title: "User Posts - Posts CRUD",
@@ -30,25 +31,28 @@ function UserPosts() {
   }, []);
 
   return (
-    <>
-      <div>
-        {userPosts?.map((userPost) => (
-          <div>
-            <div>{userPost.title}</div>
-            <div>{userPost.description}</div>
+    <div>
+      {loading ? (
+        <LoadingFetching>Wait for your Posts to Load ...</LoadingFetching>
+      ) : (
+        <div>
+          {userPosts?.map((userPost) => (
             <div>
-              {userPost.comments.map((userComment) => (
-                <>
-                  <div>{userComment?.text}</div>
-                  <div>{userComment?.user?.username}</div>
-                </>
-              ))}
+              <div>{userPost.title}</div>
+              <div>{userPost.description}</div>
+              <div>
+                {userPost.comments.map((userComment) => (
+                  <>
+                    <div>{userComment?.text}</div>
+                    <div>{userComment?.user?.username}</div>
+                  </>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-      ;
-    </>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 
