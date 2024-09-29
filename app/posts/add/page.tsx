@@ -10,7 +10,6 @@ export const metadata: Metadata = {
 function AddPost() {
   return (
     <>
-      <div>AddPost</div>;
       <AddPostForm />
     </>
   );

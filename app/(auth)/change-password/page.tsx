@@ -14,12 +14,7 @@ export const metadata: Metadata = {
 function ChangePassword() {
   const cookie = cookies().get("jwtToken")?.value || "";
   const jwtPayload = verifyTokenForPage(cookie);
-  return (
-    <>
-      <div>change password</div>
-      {jwtPayload && <ChangePasswordForm jwtPayload={jwtPayload} />}
-    </>
-  );
+  return <>{jwtPayload && <ChangePasswordForm jwtPayload={jwtPayload} />}</>;
 }
 
 export default ChangePassword;

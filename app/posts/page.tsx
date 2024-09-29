@@ -3,8 +3,6 @@ import React from "react";
 import { Metadata } from "next";
 
 import PostsTable from "@/components/posts/postsTable";
-import PaginationBasic from "@/components/pagination";
-import PagesPagination from "@/components/pagination";
 
 export const metadata: Metadata = {
   title: "All Posts - Posts CRUD",
@@ -12,7 +10,7 @@ export const metadata: Metadata = {
 };
 interface ArticlePageNumber {
   searchParams: {
-    pageNumber?: string; // `pageNumber` is optional and may be undefined
+    pageNumber?: string;
   };
 }
 function AllPosts({ searchParams }: ArticlePageNumber) {
@@ -20,7 +18,6 @@ function AllPosts({ searchParams }: ArticlePageNumber) {
 
   return (
     <div>
-      {/* <!-- Button trigger modal --> */}
       <PostsTable pageNumber={pageNumber} />
     </div>
   );

@@ -28,8 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 function Post({ params }: Props) {
   return (
     <>
-      <div> Post Data</div>;
-      <PostData postId={params.id} />
+       <PostData postId={params.id} />
     </>
   );
 }

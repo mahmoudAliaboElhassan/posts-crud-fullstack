@@ -44,13 +44,21 @@ function AddPostForm() {
         }
       }}
     >
-      <Container className={styles.formWrapper}>
-        <Form>
-          <TextFieldWrapper name="title" label="Title" />
-          <TextFieldWrapper name="description" label="description" />
-          <ButtonWrapper loading={Loading}>Add Post</ButtonWrapper>
-        </Form>
-      </Container>
+      <div style={{ position: "relative", minHeight: "100vh" }}>
+        <Container className={styles.formWrapper}>
+          <h2
+            className="text-center mb-4"
+            style={{ textShadow: "0px 2px 9px rgb(151 26 26 / 50%)" }}
+          >
+            Add Post Now
+          </h2>
+          <Form>
+            <TextFieldWrapper name="title" label="Title" />
+            <TextFieldWrapper name="description" label="description" />
+            <ButtonWrapper loading={Loading}>Add Post</ButtonWrapper>
+          </Form>
+        </Container>
+      </div>
     </Formik>
   );
 }

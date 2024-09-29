@@ -14,6 +14,7 @@ import UseFormValidation from "@/hooks/use-form-validatio";
 import UseInitialValues from "@/hooks/use-inital-values";
 import axiosInstance from "@/utils/axiosInstance";
 import styles from "../form.module.css";
+import Link from "next/link";
 
 function LoginForm() {
   const { INITIAL_FORM_STATE_SIGNUP } = UseInitialValues({});
@@ -46,14 +47,30 @@ function LoginForm() {
         }
       }}
     >
-      <div style={{ position: "relative", height: "100vh" }}>
+      <div style={{ position: "relative", minHeight: "100vh" }}>
         <Container className={styles.formWrapper}>
+          <h2
+            className="text-center mb-4"
+            style={{ textShadow: "0px 2px 9px rgb(151 26 26 / 50%)" }}
+          >
+            Create Your Account Now
+          </h2>{" "}
           <Form>
             <TextFieldWrapper name="username" label="User Name" />
             <TextFieldWrapper name="email" label="Email" />
             <TextFieldWrapper name="password" label="Password" />
             <TextFieldWrapper name="confirmPassword" label="Confirm Password" />
             <ButtonWrapper loading={Loading}>SignUp</ButtonWrapper>
+            <div className="text-center text-lg-start mt-1 mt-lg-0">
+              Already have an Account{" "}
+              <Link
+                href="/login"
+                title="Login to your Account"
+                style={{ borderBottom: "1px solid white", marginTop: "8px" }}
+              >
+                Login
+              </Link>
+            </div>
           </Form>
         </Container>
       </div>

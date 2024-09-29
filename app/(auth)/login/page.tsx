@@ -12,11 +12,7 @@ export const metadata: Metadata = {
 function Login() {
   return (
     <>
-      <div>loginForm</div>
       <LoginForm />
-      <div>
-        do not have account <Link href="/signup">SignUp</Link>
-      </div>
     </>
   );
 }

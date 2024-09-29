@@ -4,8 +4,7 @@ import { HeaderElement } from "@/utils/types";
 import { usePathname } from "next/navigation";
 
 function UseHeaderElements() {
-  const pathName = usePathname();
-  const headerElements: HeaderElement[] = [
+  const headerElementsUser: HeaderElement[] = [
     {
       href: "/posts/add",
       label: "ADD POST",
@@ -19,7 +18,13 @@ function UseHeaderElements() {
       label: "YOUR POSTS",
     },
   ];
-  return { headerElements };
+  const headerElementNotUser: HeaderElement[] = [
+    {
+      href: "/posts",
+      label: "POSTS",
+    },
+  ];
+  return { headerElementsUser, headerElementNotUser };
 }
 
 export default UseHeaderElements;

@@ -12,6 +12,7 @@ import "../alert.css";
 import { useRouter } from "next/navigation";
 import PagesPagination from "../pagination";
 import LoadingFetching from "../loadingData";
+import { motion } from "framer-motion";
 
 interface Props {
   pageNumber: string;
@@ -98,85 +99,103 @@ function PostsTable({ pageNumber }: Props) {
     getPosts();
   }, [pageNumber]);
   return (
-    <>
+    <div style={{ minHeight: "calc(100vh - 118px)" }}>
       {loading ? (
         <LoadingFetching>Wait for all Posts to Load ...</LoadingFetching>
       ) : (
         <Container fluid="lg">
-          <Table striped="columns" bordered hover size="md">
-            <thead>
-              <tr>
-                <th className="text-center" style={{ verticalAlign: "middle" }}>
-                  Title
-                </th>
-                <th colSpan={2} style={{ textAlign: "center" }}>
-                  View
-                </th>
-                <th colSpan={2} style={{ textAlign: "center" }}>
-                  Edit
-                </th>
-                <th colSpan={2} style={{ textAlign: "center" }}>
-                  Add Comment
-                </th>
-                <th colSpan={2} style={{ textAlign: "center" }}>
-                  Delete
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {posts?.map((post) => (
-                <>
-                  {" "}
-                  <tr>
-                    <td
-                      className="text-center"
-                      style={{ verticalAlign: "middle" }}
-                    >
-                      {post.title}
-                    </td>
-                    <td colSpan={2} style={{ textAlign: "center" }}>
-                      <Button variant="link" href={`/posts/${post.id}`}>
-                        <Link href={`/posts/${post.id}`}>View</Link>
-                      </Button>
-                    </td>
-                    <td
-                      colSpan={2}
-                      style={{ textAlign: "center" }}
-                      onClick={() => handleShow(post.id)}
-                    >
-                      <Button variant="primary">Edit</Button>
-                    </td>
-                    <td colSpan={2} style={{ textAlign: "center" }}>
-                      <Button variant="secondary">
-                        <Link
-                          href={`/comments/add/${post.id}`}
-                          style={{ color: "white" }}
-                        >
-                          Add Comment
-                        </Link>
-                      </Button>
-                    </td>
-                    <td
-                      colSpan={2}
-                      style={{ textAlign: "center" }}
-                      onClick={() => handleDelete(post.id)}
-                    >
-                      <Button variant="danger">Delete Post</Button>
-                    </td>
-                  </tr>
-                </>
-              ))}
-            </tbody>
-            <ModalUpdatePost
-              show={show}
-              handleClose={handleClose}
-              postData={postData}
-            />
-          </Table>
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1, ease: "easeInOut", delay: 0.2 }}
+            // easeInOut =>fade
+          >
+            <h2 className="text-center my-4">Manage Posts</h2>
+            <Table
+              striped="columns"
+              bordered
+              hover
+              size="md"
+              style={{ overflowX: "auto" }}
+            >
+              <thead>
+                <tr>
+                  <th
+                    className="text-center"
+                    style={{ verticalAlign: "middle" }}
+                  >
+                    Title
+                  </th>
+                  <th colSpan={2} style={{ textAlign: "center" }}>
+                    View
+                  </th>
+                  <th colSpan={2} style={{ textAlign: "center" }}>
+                    Edit
+                  </th>
+                  <th colSpan={2} style={{ textAlign: "center" }}>
+                    Add Comment
+                  </th>
+                  <th colSpan={2} style={{ textAlign: "center" }}>
+                    Delete
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {posts?.map((post) => (
+                  <>
+                    {" "}
+                    <tr>
+                      <td
+                        className="text-center"
+                        style={{ verticalAlign: "middle" }}
+                      >
+                        <h5>{post.title}</h5>
+                      </td>
+                      <td colSpan={2} style={{ textAlign: "center" }}>
+                        <Button variant="link" href={`/posts/${post.id}`}>
+                          <Link href={`/posts/${post.id}`}>View</Link>
+                        </Button>
+                      </td>
+                      <td
+                        colSpan={2}
+                        style={{ textAlign: "center" }}
+                        onClick={() => handleShow(post.id)}
+                      >
+                        <Button variant="primary">Edit</Button>
+                      </td>
+                      <td colSpan={2} style={{ textAlign: "center" }}>
+                        <Button variant="secondary">
+                          <Link
+                            href={`/comments/add/${post.id}`}
+                            style={{ color: "white" }}
+                          >
+                            Add Comment
+                          </Link>
+                        </Button>
+                      </td>
+                      <td
+                        colSpan={2}
+                        style={{ textAlign: "center" }}
+                        onClick={() => handleDelete(post.id)}
+                      >
+                        <Button variant="danger">Delete Post</Button>
+                      </td>
+                    </tr>
+                  </>
+                ))}
+              </tbody>
+              <ModalUpdatePost
+                show={show}
+                handleClose={handleClose}
+                postData={postData}
+              />
+            </Table>
+          </motion.div>
+
           <PagesPagination count={count} />
         </Container>
       )}
-    </>
+    </div>
   );
 }
 

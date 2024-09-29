@@ -27,7 +27,6 @@ async function AddComment({ params }: Props) {
 
   return (
     <>
-      <div>AddComment</div>
       <AddCommentForm postId={parseInt(params.postId)} />
     </>
   );

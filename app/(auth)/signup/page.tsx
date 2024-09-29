@@ -14,11 +14,7 @@ export const metadata: Metadata = {
 function SignUp() {
   return (
     <>
-      <div>SignUp</div>
       <SignUpForm />
-      <div>
-        Already have account <Link href="/login">Login</Link>
-      </div>
     </>
   );
 }

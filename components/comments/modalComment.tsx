@@ -52,8 +52,8 @@ function ModalUpdateComment({ show, handleClose, commentData }: Props) {
                   values
                 );
                 // Trigger the router to refresh the page
-                router.refresh();
                 toast.success("Comment is Updated Successfully!");
+                router.refresh();
                 setLoading(false);
                 handleClose();
               } catch (error: any) {

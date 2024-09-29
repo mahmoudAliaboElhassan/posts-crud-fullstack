@@ -1,4 +1,4 @@
-"use client"; // This remains for the Header component
+"use client";
 
 import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
@@ -20,17 +20,22 @@ interface Props {
 }
 
 const Header = ({ payload }: Props) => {
-  const { headerElements } = UseHeaderElements();
+  const { headerElementsUser, headerElementNotUser } = UseHeaderElements();
+  const headerElements = payload ? headerElementsUser : headerElementNotUser;
   const pathname = usePathname();
   const [loading, setLoading] = useState<boolean>(false);
+  const [expanded, setExpanded] = useState<boolean>(false); // State to manage Navbar toggle
   const router = useRouter();
+
   const handleLogOut = async () => {
     setLoading(true);
     try {
       await axiosInstance.get("/api/users/logout");
       setLoading(false);
-      router.refresh();
       toast.success("You Have Logged Out Successfully!");
+      router.push("/");
+      router.refresh();
+      setExpanded(false); // Close the dropdown after logging out
     } catch (error: any) {
       setLoading(false);
       Swal.fire({
@@ -42,11 +47,19 @@ const Header = ({ payload }: Props) => {
     }
   };
 
+  // Function to close the dropdown when a link is clicked
+  const handleLinkClick = () => {
+    setExpanded(false);
+    console.log("clicked");
+  };
+
   return (
     <>
       <Navbar
         expand="lg"
         className="bg-body-tertiary"
+        expanded={expanded} // Control expansion
+        onToggle={() => setExpanded(!expanded)} // Toggle function
         style={{
           position: "fixed",
           left: 0,
@@ -57,13 +70,16 @@ const Header = ({ payload }: Props) => {
       >
         <Container>
           <Navbar.Brand>
-            <Link href="/">Posts CRUD</Link>
+            <Link href="/" onClick={handleLinkClick}>
+              Posts CRUD
+            </Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               {headerElements.map(({ href, label }) => (
                 <Nav.Item
+                  key={href}
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -72,8 +88,11 @@ const Header = ({ payload }: Props) => {
                     marginRight: "8px",
                     marginLeft: "8px",
                   }}
+                  className="mt-1 mt-lg-0"
                 >
-                  <Link href={href}>{label}</Link>
+                  <Link href={href} onClick={handleLinkClick}>
+                    {label}
+                  </Link>
                 </Nav.Item>
               ))}
               <NavDropdown
@@ -90,21 +109,42 @@ const Header = ({ payload }: Props) => {
                 {payload ? (
                   <>
                     <NavDropdown.Item>
-                      <Link href="/change-password"> Change Password</Link>
+                      <Link
+                        href="/change-password"
+                        onClick={handleLinkClick}
+                        style={{ width: "100%", display: "block" }}
+                      >
+                        Change Password
+                      </Link>
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item onClick={handleLogOut}>
+                    <NavDropdown.Item
+                      onClick={handleLogOut}
+                      style={{ width: "100%", display: "block" }}
+                    >
                       LogOut{" "}
                     </NavDropdown.Item>
                   </>
                 ) : (
                   <>
                     <NavDropdown.Item>
-                      <Link href="/login">Login</Link>
+                      <Link
+                        href="/login"
+                        onClick={handleLinkClick}
+                        style={{ width: "100%", display: "block" }}
+                      >
+                        Login
+                      </Link>
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item>
-                      <Link href="/signup">SignUp</Link>
+                      <Link
+                        href="/signup"
+                        onClick={handleLinkClick}
+                        style={{ width: "100%", display: "block" }}
+                      >
+                        SignUp
+                      </Link>
                     </NavDropdown.Item>
                   </>
                 )}

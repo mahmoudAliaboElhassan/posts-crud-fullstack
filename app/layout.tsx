@@ -5,20 +5,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import Header from "@/components/header";
 import { Toaster } from "react-hot-toast";
-import Footer from "@/components/footer";
+import Footer from "@/components/footer/footer";
 import { cookies } from "next/headers";
 import { verifyTokenForPage } from "@/utils/verifyToken";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",

@@ -13,6 +13,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/navigation";
 import { Container, Form } from "react-bootstrap";
 import styles from "../form.module.css";
+import Link from "next/link";
 
 function LoginForm() {
   const { INITIAL_FORM_STATE_LOGIN } = UseInitialValues({});
@@ -32,6 +33,7 @@ function LoginForm() {
           toast.success("You Have Logged In Successfully!");
           console.log(user.data);
           router.push("/");
+          router.refresh();
           setLoading(false);
         } catch (error: any) {
           setLoading(false);
@@ -44,13 +46,32 @@ function LoginForm() {
         }
       }}
     >
-      <Container fluid="md" className={styles.formWrapper}>
-        <Form>
-          <TextFieldWrapper name="email" label="Email" />
-          <TextFieldWrapper name="password" label="Password" />
-          <ButtonWrapper loading={Loading}>login</ButtonWrapper>
-        </Form>
-      </Container>
+      <div style={{ position: "relative", minHeight: "100vh" }}>
+        <Container fluid="md" className={styles.formWrapper}>
+          <h2
+            className="text-center mb-4"
+            style={{ textShadow: "0px 2px 9px rgb(151 26 26 / 50%)" }}
+          >
+            Login to Your Account
+          </h2>{" "}
+          {/* Heading added */}
+          <Form>
+            <TextFieldWrapper name="email" label="Email" />
+            <TextFieldWrapper name="password" label="Password" />
+            <ButtonWrapper loading={Loading}>login</ButtonWrapper>
+            <div className="text-center text-lg-start mt-1 mt-lg-0">
+              Do not have an Account{" "}
+              <Link
+                href="/signup"
+                title="Create Account"
+                style={{ borderBottom: "1px solid white" }}
+              >
+                SignUp
+              </Link>
+            </div>
+          </Form>
+        </Container>
+      </div>
     </Formik>
   );
 }

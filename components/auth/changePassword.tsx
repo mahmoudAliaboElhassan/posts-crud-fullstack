@@ -15,6 +15,7 @@ import { verifyTokenForPage } from "@/utils/verifyToken";
 import { JWTPayload } from "@/utils/types";
 import { Container } from "react-bootstrap";
 import styles from "../form.module.css";
+import Link from "next/link";
 
 interface Props {
   jwtPayload: JWTPayload;
@@ -55,13 +56,31 @@ function ChangePasswordForm({ jwtPayload }: Props) {
         }
       }}
     >
-      <Container className={styles.formWrapper}>
-        <Form>
-          <TextFieldWrapper name="currentPassword" label="Current Password" />
-          <TextFieldWrapper name="newPassword" label="New Password" />
-          <ButtonWrapper loading={Loading}>Chage Password</ButtonWrapper>
-        </Form>
-      </Container>
+      <div style={{ position: "relative", minHeight: "100vh" }}>
+        <Container className={styles.formWrapper}>
+          <h2
+            className="text-center mb-4"
+            style={{ textShadow: "0px 2px 9px rgb(151 26 26 / 50%)" }}
+          >
+            Change Your Password Now
+          </h2>{" "}
+          <Form>
+            <TextFieldWrapper name="currentPassword" label="Current Password" />
+            <TextFieldWrapper name="newPassword" label="New Password" />
+            <ButtonWrapper loading={Loading}>Chage Password</ButtonWrapper>{" "}
+            <div className="text-center text-lg-start mt-1 mt-lg-0">
+              Remembered it{" "}
+              <Link
+                href="/login"
+                title="Login to your Account"
+                style={{ borderBottom: "1px solid white", marginTop: "8px" }}
+              >
+                Login
+              </Link>
+            </div>
+          </Form>
+        </Container>
+      </div>
     </Formik>
   );
 }

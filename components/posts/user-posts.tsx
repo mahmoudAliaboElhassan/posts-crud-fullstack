@@ -35,7 +35,7 @@ function UserPosts() {
       {loading ? (
         <LoadingFetching>Wait for your Posts to Load ...</LoadingFetching>
       ) : (
-        <div>
+        <div style={{ minHeight: "100vh" }}>
           {userPosts?.map((userPost) => (
             <div>
               <div>{userPost.title}</div>
