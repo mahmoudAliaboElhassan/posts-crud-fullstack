@@ -1,18 +1,20 @@
 "use client";
-import axiosInstance from "@/utils/axiosInstance";
-import { Post } from "@prisma/client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+
 import Table from "react-bootstrap/Table";
-import ModalUpdatePost from "./modalPost";
-import { Button, Container } from "react-bootstrap";
-import Link from "next/link";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import "../alert.css";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { Button, Container } from "react-bootstrap";
+
+import axiosInstance from "@/utils/axiosInstance";
+import { Post } from "@prisma/client";
+import ModalUpdatePost from "./modalPost";
+import Link from "next/link";
+import "../alert.css";
 import PagesPagination from "../pagination";
 import LoadingFetching from "../loadingData";
-import { motion } from "framer-motion";
 
 interface Props {
   pageNumber: string;
@@ -153,7 +155,12 @@ function PostsTable({ pageNumber }: Props) {
                       </td>
                       <td colSpan={2} style={{ textAlign: "center" }}>
                         <Button variant="link" href={`/posts/${post.id}`}>
-                          <Link href={`/posts/${post.id}`}>View</Link>
+                          <Link
+                            href={`/posts/${post.id}`}
+                            style={{ width: "100%", height: "100%" }}
+                          >
+                            View
+                          </Link>
                         </Button>
                       </td>
                       <td
@@ -167,7 +174,11 @@ function PostsTable({ pageNumber }: Props) {
                         <Button variant="secondary">
                           <Link
                             href={`/comments/add/${post.id}`}
-                            style={{ color: "white" }}
+                            style={{
+                              color: "white",
+                              width: "100%",
+                              height: "100%",
+                            }}
                           >
                             Add Comment
                           </Link>

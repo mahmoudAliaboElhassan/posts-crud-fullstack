@@ -1,10 +1,13 @@
 "use client";
+import React, { useEffect, useState } from "react";
+
+import { Metadata } from "next";
+import { motion } from "framer-motion";
 
 import axiosInstance from "@/utils/axiosInstance";
 import { SinglePost } from "@/utils/types";
-import { Metadata } from "next";
-import React, { useEffect, useState } from "react";
 import LoadingFetching from "../loadingData";
+import styles from "./user-posts.module.css";
 
 export const metadata: Metadata = {
   title: "User Posts - Posts CRUD",
@@ -14,6 +17,7 @@ export const metadata: Metadata = {
 function UserPosts() {
   const [userPosts, setUserPosts] = useState<SinglePost[]>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [active, setActive] = useState<number>(0);
   useEffect(() => {
     const getUserPosts = async () => {
       setLoading(true);
@@ -31,23 +35,36 @@ function UserPosts() {
   }, []);
 
   return (
-    <div>
+    <div className={styles.container}>
       {loading ? (
         <LoadingFetching>Wait for your Posts to Load ...</LoadingFetching>
       ) : (
-        <div style={{ minHeight: "100vh" }}>
-          {userPosts?.map((userPost) => (
-            <div>
-              <div>{userPost.title}</div>
-              <div>{userPost.description}</div>
-              <div>
-                {userPost.comments.map((userComment) => (
-                  <>
-                    <div>{userComment?.text}</div>
-                    <div>{userComment?.user?.username}</div>
-                  </>
-                ))}
-              </div>
+        <div className={`${styles.postsContainer} text-md-start text-center`}>
+          {userPosts?.map((userPost, idx) => (
+            <div
+              key={userPost.id}
+              className={styles.postCard}
+              onClick={() => setActive(idx)}
+            >
+              <h2 className={styles.postTitle}>{userPost.title}</h2>
+              <motion.div
+                style={{
+                  overflow: "hidden",
+                }}
+                animate={{ height: active === idx ? "auto" : 0 }}
+              >
+                <p className={styles.postDescription}>{userPost.description}</p>
+                <div className={styles.commentsSection}>
+                  {userPost.comments.map((userComment) => (
+                    <div key={userComment.id} className={styles.commentCard}>
+                      <p className={styles.commentText}>{userComment?.text}</p>
+                      <p className={styles.commentUser}>
+                        - {userComment?.user?.username}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
             </div>
           ))}
         </div>
@@ -55,5 +72,4 @@ function UserPosts() {
     </div>
   );
 }
-
 export default UserPosts;

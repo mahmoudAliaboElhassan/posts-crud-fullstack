@@ -90,7 +90,11 @@ const Header = ({ payload }: Props) => {
                   }}
                   className="mt-1 mt-lg-0"
                 >
-                  <Link href={href} onClick={handleLinkClick}>
+                  <Link
+                    href={href}
+                    onClick={handleLinkClick}
+                    style={{ width: "100%" }}
+                  >
                     {label}
                   </Link>
                 </Nav.Item>
