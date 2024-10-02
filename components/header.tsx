@@ -75,7 +75,7 @@ const Header = ({ payload }: Props) => {
             <Link
               href="/"
               onClick={handleLinkClick}
-              style={{ fontFamily: "Montez, cursive", fontSize: "2em" }}
+              style={{ fontFamily: "Montez, cursive", fontSize: "1.8em" }}
             >
               Posts CRUD
             </Link>
