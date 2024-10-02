@@ -7,20 +7,22 @@ import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Button, Container } from "react-bootstrap";
+import { Post } from "@prisma/client";
 
 import axiosInstance from "@/utils/axiosInstance";
-import { Post } from "@prisma/client";
 import ModalUpdatePost from "./modalPost";
 import Link from "next/link";
 import "../alert.css";
 import PagesPagination from "../pagination";
 import LoadingFetching from "../loadingData";
+import { JWTPayload } from "@/utils/types";
 
 interface Props {
   pageNumber: string;
+  jwtPayload: JWTPayload | null;
 }
 
-function PostsTable({ pageNumber }: Props) {
+function PostsTable({ pageNumber, jwtPayload }: Props) {
   const [posts, setPosts] = useState<Post[]>();
   const [count, setCount] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
@@ -130,12 +132,12 @@ function PostsTable({ pageNumber }: Props) {
                   </th>
                   <th colSpan={2} style={{ textAlign: "center" }}>
                     View
+                  </th>{" "}
+                  <th colSpan={2} style={{ textAlign: "center" }}>
+                    Add Comment
                   </th>
                   <th colSpan={2} style={{ textAlign: "center" }}>
                     Edit
-                  </th>
-                  <th colSpan={2} style={{ textAlign: "center" }}>
-                    Add Comment
                   </th>
                   <th colSpan={2} style={{ textAlign: "center" }}>
                     Delete
@@ -154,7 +156,11 @@ function PostsTable({ pageNumber }: Props) {
                         <h5>{post.title}</h5>
                       </td>
                       <td colSpan={2} style={{ textAlign: "center" }}>
-                        <Button variant="link" href={`/posts/${post.id}`}>
+                        <Button
+                          variant="success"
+                          href={`/posts/${post.id}`}
+                          size="lg"
+                        >
                           <Link
                             href={`/posts/${post.id}`}
                             style={{ width: "100%", height: "100%" }}
@@ -163,15 +169,8 @@ function PostsTable({ pageNumber }: Props) {
                           </Link>
                         </Button>
                       </td>
-                      <td
-                        colSpan={2}
-                        style={{ textAlign: "center" }}
-                        onClick={() => handleShow(post.id)}
-                      >
-                        <Button variant="primary">Edit</Button>
-                      </td>
                       <td colSpan={2} style={{ textAlign: "center" }}>
-                        <Button variant="secondary">
+                        <Button variant="secondary" size="lg">
                           <Link
                             href={`/comments/add/${post.id}`}
                             style={{
@@ -184,12 +183,31 @@ function PostsTable({ pageNumber }: Props) {
                           </Link>
                         </Button>
                       </td>
-                      <td
-                        colSpan={2}
-                        style={{ textAlign: "center" }}
-                        onClick={() => handleDelete(post.id)}
-                      >
-                        <Button variant="danger">Delete Post</Button>
+
+                      <td colSpan={2} style={{ textAlign: "center" }}>
+                        <Button
+                          size="lg"
+                          variant="primary"
+                          onClick={() => handleShow(post.id)}
+                          disabled={
+                            !jwtPayload || jwtPayload.id !== post.userId
+                          }
+                        >
+                          Edit
+                        </Button>
+                      </td>
+
+                      <td colSpan={2} style={{ textAlign: "center" }}>
+                        <Button
+                          variant="danger"
+                          size="lg"
+                          onClick={() => handleDelete(post.id)}
+                          disabled={
+                            !jwtPayload || jwtPayload.id !== post.userId
+                          }
+                        >
+                          Delete Post
+                        </Button>
                       </td>
                     </tr>
                   </>

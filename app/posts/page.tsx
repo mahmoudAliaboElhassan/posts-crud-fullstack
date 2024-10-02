@@ -1,8 +1,10 @@
 import React from "react";
 
 import { Metadata } from "next";
+import { cookies } from "next/headers";
 
 import PostsTable from "@/components/posts/postsTable";
+import { verifyTokenForPage } from "@/utils/verifyToken";
 
 export const metadata: Metadata = {
   title: "All Posts - Posts CRUD",
@@ -15,10 +17,11 @@ interface ArticlePageNumber {
 }
 function AllPosts({ searchParams }: ArticlePageNumber) {
   const pageNumber = searchParams.pageNumber || "1";
-
+  const cookie = cookies().get("jwtToken")?.value || "";
+  const jwtPayload = verifyTokenForPage(cookie);
   return (
     <div>
-      <PostsTable pageNumber={pageNumber} />
+      <PostsTable pageNumber={pageNumber} jwtPayload={jwtPayload} />
     </div>
   );
 }

@@ -1,19 +1,22 @@
 "use client";
 
 import React, { useState } from "react";
+
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { JWTPayload } from "@/utils/types";
-import profileImage from "../assets/profile-candidate.png";
 import Image from "next/image";
-import UseHeaderElements from "@/hooks/use-header-elements";
 import { usePathname, useRouter } from "next/navigation";
-import axiosInstance from "@/utils/axiosInstance";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import "@fontsource/montez"; // Defaults to weight 400
+
+import { JWTPayload } from "@/utils/types";
+import profileImage from "../assets/profile-candidate.png";
+import UseHeaderElements from "@/hooks/use-header-elements";
+import axiosInstance from "@/utils/axiosInstance";
 
 interface Props {
   payload: JWTPayload | null;
@@ -47,7 +50,6 @@ const Header = ({ payload }: Props) => {
     }
   };
 
-  // Function to close the dropdown when a link is clicked
   const handleLinkClick = () => {
     setExpanded(false);
     console.log("clicked");
@@ -69,8 +71,12 @@ const Header = ({ payload }: Props) => {
         }}
       >
         <Container>
-          <Navbar.Brand>
-            <Link href="/" onClick={handleLinkClick}>
+          <Navbar.Brand style={{ margin: "auto" }}>
+            <Link
+              href="/"
+              onClick={handleLinkClick}
+              style={{ fontFamily: "Montez, cursive", fontSize: "2em" }}
+            >
               Posts CRUD
             </Link>
           </Navbar.Brand>
@@ -88,7 +94,7 @@ const Header = ({ payload }: Props) => {
                     marginRight: "8px",
                     marginLeft: "8px",
                   }}
-                  className="mt-1 mt-lg-0"
+                  className="mt-2 mt-lg-0"
                 >
                   <Link
                     href={href}
@@ -157,7 +163,7 @@ const Header = ({ payload }: Props) => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <div style={{ height: "65px" }}></div>
+      <div style={{ height: "90px" }}></div>
     </>
   );
 };

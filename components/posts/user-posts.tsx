@@ -8,6 +8,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import { SinglePost } from "@/utils/types";
 import LoadingFetching from "../loadingData";
 import styles from "./user-posts.module.css";
+import { div } from "framer-motion/client";
 
 export const metadata: Metadata = {
   title: "User Posts - Posts CRUD",
@@ -55,14 +56,22 @@ function UserPosts() {
               >
                 <p className={styles.postDescription}>{userPost.description}</p>
                 <div className={styles.commentsSection}>
-                  {userPost.comments.map((userComment) => (
-                    <div key={userComment.id} className={styles.commentCard}>
-                      <p className={styles.commentText}>{userComment?.text}</p>
-                      <p className={styles.commentUser}>
-                        - {userComment?.user?.username}
-                      </p>
+                  {userPost.comments.length > 0 ? (
+                    userPost.comments.map((userComment) => (
+                      <div key={userComment.id} className={styles.commentCard}>
+                        <p className={styles.commentText}>
+                          {userComment?.text}
+                        </p>
+                        <p className={styles.commentUser}>
+                          - {userComment?.user?.username}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <div className={styles.commentsInfo}>
+                      no Comments for this post
                     </div>
-                  ))}
+                  )}
                 </div>
               </motion.div>
             </div>
