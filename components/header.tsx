@@ -67,7 +67,7 @@ const Header = ({ payload }: Props) => {
           left: 0,
           top: 0,
           width: "100%",
-          zIndex: "999",
+          zIndex: "1001",
         }}
       >
         <Container>

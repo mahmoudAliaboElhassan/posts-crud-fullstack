@@ -8,14 +8,15 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Button, Container } from "react-bootstrap";
 import { Post } from "@prisma/client";
+import Link from "next/link";
 
 import axiosInstance from "@/utils/axiosInstance";
 import ModalUpdatePost from "./modalPost";
-import Link from "next/link";
-import "../alert.css";
 import PagesPagination from "../pagination";
 import LoadingFetching from "../loadingData";
 import { JWTPayload } from "@/utils/types";
+import HeadingText from "./heading";
+import "../alert.css";
 
 interface Props {
   pageNumber: string;
@@ -108,13 +109,13 @@ function PostsTable({ pageNumber, jwtPayload }: Props) {
         <LoadingFetching>Wait for all Posts to Load ...</LoadingFetching>
       ) : (
         <Container fluid="lg">
+          <HeadingText text="Manage Posts" />
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, ease: "easeInOut", delay: 0.2 }}
             // easeInOut =>fade
           >
-            <h2 className="text-center my-4">Manage Posts</h2>
             <Table
               striped="columns"
               bordered
