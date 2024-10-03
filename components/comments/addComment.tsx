@@ -40,7 +40,7 @@ function AddCommentForm({ postId }: Props) {
           });
           toast.success("Comment has been added Successfully!");
           console.log(user.data);
-          router.push("/posts");
+          router.push(`/posts/${postId}`);
           setLoading(false);
         } catch (error: any) {
           setLoading(false);

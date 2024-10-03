@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 
 import axiosInstance from "@/utils/axiosInstance";
-import { SinglePost } from "@/utils/types";
+import { JWTPayload, SinglePost } from "@/utils/types";
 import { Button, Container } from "react-bootstrap";
 import { Comment } from "@prisma/client";
 import ModalUpdateComment from "../comments/modalComment";
@@ -12,12 +12,14 @@ import "../alert.css";
 import { useRouter } from "next/navigation";
 import LoadingFetching from "../loadingData";
 import "./postData.css";
+import Link from "next/link";
 
 interface Props {
   postId: string;
+  jwtPayload: JWTPayload | null;
 }
 
-function PostData({ postId }: Props) {
+function PostData({ postId, jwtPayload }: Props) {
   const [show, setShow] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const handleClose = () => setShow(false);
@@ -92,25 +94,29 @@ function PostData({ postId }: Props) {
         <LoadingFetching>Wait for Post Data to Load ...</LoadingFetching>
       ) : (
         <div>
+          <Link href={`/comments/add/${postData?.id}`}>
+            Add Comment for this Post
+          </Link>
           <div className="post-title">{postData?.title}</div>
           <div className="post-description">{postData?.description}</div>
           <Container className="comment-container">
             {postData?.comments?.map((comment) => (
               <div key={comment.id} className="comment">
                 <div className="comment-text">{comment.text}</div>
-
-                <div className="comment-buttons">
-                  <Button onClick={() => handleComment(comment.id)}>
-                    Update Comment Data
-                  </Button>
-                  <Button
-                    className="mx-2"
-                    variant="danger"
-                    onClick={() => handleDelete(comment.id)}
-                  >
-                    Delete Comment
-                  </Button>
-                </div>
+                {jwtPayload && jwtPayload.id === comment.user.id && (
+                  <div className="comment-buttons">
+                    <Button onClick={() => handleComment(comment.id)}>
+                      Update Comment Data
+                    </Button>
+                    <Button
+                      className="mx-2"
+                      variant="danger"
+                      onClick={() => handleDelete(comment.id)}
+                    >
+                      Delete Comment
+                    </Button>
+                  </div>
+                )}
                 <div className="comment-user text-md-start text-center ms-md-2">
                   {comment.user.username}
                 </div>

@@ -1,6 +1,8 @@
 import PostData from "@/components/posts/postData";
 import axiosInstance from "@/utils/axiosInstance";
+import { verifyTokenForPage } from "@/utils/verifyToken";
 import { Metadata } from "next";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -26,9 +28,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 function Post({ params }: Props) {
+  const cookie = cookies().get("jwtToken")?.value || "";
+  const jwtPayload = verifyTokenForPage(cookie);
   return (
     <>
-       <PostData postId={params.id} />
+      <PostData postId={params.id} jwtPayload={jwtPayload} />
     </>
   );
 }

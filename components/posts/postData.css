@@ -15,16 +15,16 @@
 
 .post-description {
   font-size: 1.4rem;
-  color: #495057; /* Slightly lighter text */
+  color: #8fc7ff;
   margin-bottom: 20px;
-  text-align: justify; /* Justify text for better readability */
+  text-align: justify;
   max-width: 600px;
   margin: auto;
   text-align: center;
 }
 
 .comment-container {
-  border-top: 1px solid #dee2e6; /* Divider for comments */
+  border-top: 1px solid #dee2e6;
   padding-top: 15px;
   margin-top: 15px;
 }
@@ -60,6 +60,7 @@
   margin-top: 10px; /* Space above buttons */
   display: flex;
   justify-content: center;
+  margin-top: 40px;
 }
 
 .red-confirm-button {
