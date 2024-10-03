@@ -60,3 +60,19 @@
   color: #495057; /* Slightly lighter text */
   font-size: 16px;
 }
+.headingText {
+  position: fixed;
+  top: 80px; /* Adjust this based on your header height */
+  width: 100%;
+  text-align: center;
+  background-color: black; /* Matches your background */
+  color: #e0e0e0; /* Light Gray for contrast */
+  padding: 13px 0;
+  z-index: 1000;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.headingText span {
+  display: inline-block;
+}

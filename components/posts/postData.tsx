@@ -1,18 +1,19 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-import axiosInstance from "@/utils/axiosInstance";
-import { JWTPayload, SinglePost } from "@/utils/types";
 import { Button, Container } from "react-bootstrap";
 import { Comment } from "@prisma/client";
-import ModalUpdateComment from "../comments/modalComment";
+import Link from "next/link";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import "../alert.css";
 import { useRouter } from "next/navigation";
+
+import axiosInstance from "@/utils/axiosInstance";
+import { JWTPayload, SinglePost } from "@/utils/types";
+import ModalUpdateComment from "../comments/modalComment";
 import LoadingFetching from "../loadingData";
 import "./postData.css";
-import Link from "next/link";
+import "../alert.css";
 
 interface Props {
   postId: string;
@@ -118,7 +119,13 @@ function PostData({ postId, jwtPayload }: Props) {
                   </div>
                 )}
                 <div className="comment-user text-md-start text-center ms-md-2">
-                  {comment.user.username}
+                  <Link
+                    href={`/posts/specific-user/${comment.userId}`}
+                    title="go to user posts"
+                  >
+                    {" "}
+                    {comment.user.username}
+                  </Link>
                 </div>
                 <div className="comment-email  text-md-start text-center ms-md-2">
                   {comment.user.email}
