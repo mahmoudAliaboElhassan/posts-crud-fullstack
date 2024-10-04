@@ -5,9 +5,10 @@ import Pagination from "react-bootstrap/Pagination";
 
 interface Props {
   count: number;
+  search: string;
 }
 
-function PagesPagination({ count }: Props) {
+function PagesPagination({ count, search }: Props) {
   const countOfPosts = Math.ceil(count / POSTS_PER_PAGE);
 
   let items: any[] = [];
@@ -17,7 +18,7 @@ function PagesPagination({ count }: Props) {
   const currentPage = parseInt(searchParams.get("pageNumber") || "1");
 
   const handlePageClick = (number: number): any => {
-    router.push(`/posts?pageNumber=${number}`);
+    router.push(`/posts?pageNumber=${number}&searchText=${search}`);
   };
 
   for (let number = 1; number <= countOfPosts; number++) {

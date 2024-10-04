@@ -1,0 +1,14 @@
+.inputStyle {
+  border-radius: 0;
+  padding: 15px;
+}
+.buttonSearch {
+  border-radius: 0;
+}
+.formContainer {
+  position: fixed;
+  top: 80px;
+  width: 100%;
+  z-index: 1001;
+  /* background-color: black; */
+}

@@ -13,15 +13,21 @@ export const metadata: Metadata = {
 interface ArticlePageNumber {
   searchParams: {
     pageNumber?: string;
+    searchText?: string;
   };
 }
 function AllPosts({ searchParams }: ArticlePageNumber) {
   const pageNumber = searchParams.pageNumber || "1";
+  const searchText = searchParams.searchText || "";
   const cookie = cookies().get("jwtToken")?.value || "";
   const jwtPayload = verifyTokenForPage(cookie);
   return (
     <div>
-      <PostsTable pageNumber={pageNumber} jwtPayload={jwtPayload} />
+      <PostsTable
+        pageNumber={pageNumber}
+        searchText={searchText}
+        jwtPayload={jwtPayload}
+      />
     </div>
   );
 }
