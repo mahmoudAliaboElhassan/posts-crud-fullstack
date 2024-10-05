@@ -1,6 +1,10 @@
-import Image from "next/image";
+import Introductory from "@/components/introductory";
 import "./page.css";
 
 export default function Home() {
-  return <div style={{ minHeight: "100vh" }}>home page</div>;
+  return (
+    <div>
+      <Introductory />
+    </div>
+  );
 }
