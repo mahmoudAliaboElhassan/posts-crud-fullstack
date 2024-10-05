@@ -35,13 +35,18 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
-
+    if (!jwtPayload) {
+      return NextResponse.json(
+        { message: "no Token Provided" },
+        { status: 401 }
+      );
+    }
     // Create comment
     const comment = await prisma.comment.create({
       data: {
         postId: body.postId,
         text: body.text,
-        userId: jwtPayload?.id,
+        userId: jwtPayload.id,
       },
     });
 

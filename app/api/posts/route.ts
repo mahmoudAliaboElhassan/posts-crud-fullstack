@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { addPost } from "@/utils/validationSchema";
+import { Prisma } from "@prisma/client";
+
 import { POSTS_PER_PAGE } from "@/utils/constants";
+import { addPost } from "@/utils/validationSchema";
 import verifyToken from "@/utils/verifyToken";
 import { PostDTO } from "@/utils/dto";
 import prisma from "@/utils/db";
@@ -9,6 +11,14 @@ import prisma from "@/utils/db";
 export async function POST(request: NextRequest) {
   try {
     const jwtPayload = verifyToken(request);
+
+    if (!jwtPayload) {
+      return NextResponse.json(
+        { message: "no Token Provided" },
+        { status: 401 }
+      );
+    }
+
     const body = (await request.json()) as PostDTO;
     const validation = addPost.safeParse(body);
     if (!validation.success) {
@@ -40,8 +50,12 @@ export async function GET(request: NextRequest) {
     const whereClause = searchText
       ? {
           OR: [
-            { title: { contains: searchText, mode: "insensitive" } }, // Case-insensitive search on title
-            // { description: { contains: searchText, mode: "insensitive" } }, // Case-insensitive search on description
+            {
+              title: {
+                contains: searchText,
+                mode: Prisma.QueryMode.insensitive, // Use Prisma.QueryMode here
+              },
+            },
           ],
         }
       : {};
