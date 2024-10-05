@@ -5,7 +5,7 @@ import Table from "react-bootstrap/Table";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button, Container } from "react-bootstrap";
 import { Post } from "@prisma/client";
 import Link from "next/link";
@@ -14,9 +14,10 @@ import ModalUpdatePost from "./modalPost";
 import PagesPagination from "../pagination";
 import LoadingFetching from "../loadingData";
 import { JWTPayload } from "@/utils/types";
-import HeadingText from "./heading";
 import "../alert.css";
 import Search from "./search";
+import NoCount from "./noCount";
+import { div } from "framer-motion/client";
 
 interface Props {
   pageNumber: string;
@@ -101,22 +102,6 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
     }
   };
 
-  const getPostsSearch = async () => {
-    setLoading(true);
-    try {
-      const posts = await axiosInstance.get(
-        `api/posts?pageNumber=${pageNumber}&searchText=${searchText}`
-      );
-      setPosts(posts.data.posts);
-      setCount(posts.data.count);
-      setLoading(false);
-      router.refresh();
-    } catch (error) {
-      setLoading(false);
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     getPosts();
   }, [searchText, pageNumber, count, postData]);
@@ -136,99 +121,157 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
               transition={{ duration: 1, ease: "easeInOut", delay: 0.2 }}
               className="overflow-x-auto"
             >
-              <Table striped="columns" bordered hover size="md">
-                <thead>
-                  <tr>
-                    <th
-                      className="text-center"
-                      style={{ verticalAlign: "middle" }}
-                    >
-                      Title
-                    </th>
-                    <th colSpan={2} style={{ textAlign: "center" }}>
-                      View
-                    </th>{" "}
-                    <th colSpan={2} style={{ textAlign: "center" }}>
-                      Add Comment
-                    </th>
-                    <th colSpan={2} style={{ textAlign: "center" }}>
-                      Edit
-                    </th>
-                    <th colSpan={2} style={{ textAlign: "center" }}>
-                      Delete
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {posts?.map((post) => (
-                    <tr key={post.id}>
-                      <td
-                        className="text-center"
-                        style={{ verticalAlign: "middle" }}
-                      >
-                        <h5>{post.title}</h5>
-                      </td>
-                      <td colSpan={2} style={{ textAlign: "center" }}>
-                        <Button
-                          variant="success"
-                          href={`/posts/${post.id}`}
-                          size="lg"
+              {!posts?.length ? (
+                <div style={{ height: "calc(100vh - 90px)" }}>
+                  <NoCount>No Posts</NoCount>
+                </div>
+              ) : (
+                <>
+                  {" "}
+                  <Table striped="columns" bordered hover size="md">
+                    <thead>
+                      <tr>
+                        <th
+                          className="text-center"
+                          style={{ verticalAlign: "middle" }}
                         >
-                          <Link
-                            href={`/posts/${post.id}`}
-                            style={{ width: "100%", height: "100%" }}
-                          >
-                            View
-                          </Link>
-                        </Button>
-                      </td>
-                      <td colSpan={2} style={{ textAlign: "center" }}>
-                        <Button variant="secondary" size="lg">
-                          <Link
-                            href={`/comments/add/${post.id}`}
-                            style={{
-                              color: "white",
-                              width: "100%",
-                              height: "100%",
-                            }}
-                          >
-                            Add Comment
-                          </Link>
-                        </Button>
-                      </td>
-                      <td colSpan={2} style={{ textAlign: "center" }}>
-                        <Button
-                          size="lg"
-                          variant="primary"
-                          onClick={() => handleShow(post.id)}
-                          disabled={
-                            !jwtPayload || jwtPayload.id !== post.userId
-                          }
+                          Title
+                        </th>
+                        <th
+                          colSpan={2}
+                          style={{
+                            textAlign: "center",
+                            verticalAlign: "middle",
+                          }}
+                        >
+                          View
+                        </th>
+                        <th
+                          colSpan={2}
+                          style={{
+                            textAlign: "center",
+                            verticalAlign: "middle",
+                          }}
+                        >
+                          Add Comment
+                        </th>
+                        <th
+                          colSpan={2}
+                          style={{
+                            textAlign: "center",
+                            verticalAlign: "middle",
+                          }}
                         >
                           Edit
-                        </Button>
-                      </td>
-                      <td colSpan={2} style={{ textAlign: "center" }}>
-                        <Button
-                          variant="danger"
-                          size="lg"
-                          onClick={() => handleDelete(post.id)}
-                          disabled={
-                            !jwtPayload || jwtPayload.id !== post.userId
-                          }
+                        </th>
+                        <th
+                          colSpan={2}
+                          style={{
+                            textAlign: "center",
+                            verticalAlign: "middle",
+                          }}
                         >
-                          Delete Post
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-                <ModalUpdatePost
-                  show={show}
-                  handleClose={handleClose}
-                  postData={postData}
-                />
-              </Table>
+                          Delete
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {posts?.map((post) => (
+                        <tr key={post.id}>
+                          <td
+                            className="text-center"
+                            style={{ verticalAlign: "middle" }}
+                          >
+                            <h5>{post.title}</h5>
+                          </td>
+                          <td
+                            colSpan={2}
+                            style={{
+                              textAlign: "center",
+                              verticalAlign: "middle",
+                            }}
+                          >
+                            <Button
+                              variant="success"
+                              href={`/posts/${post.id}`}
+                              size="lg"
+                            >
+                              <Link
+                                href={`/posts/${post.id}`}
+                                style={{ width: "100%", height: "100%" }}
+                              >
+                                View
+                              </Link>
+                            </Button>
+                          </td>
+                          <td
+                            colSpan={2}
+                            style={{
+                              textAlign: "center",
+                              verticalAlign: "middle",
+                            }}
+                          >
+                            <Button variant="secondary" size="lg">
+                              <Link
+                                href={`/comments/add/${post.id}`}
+                                style={{
+                                  color: "white",
+                                  width: "100%",
+                                  height: "100%",
+                                }}
+                              >
+                                Add Comment
+                              </Link>
+                            </Button>
+                          </td>
+                          <td
+                            colSpan={2}
+                            style={{
+                              textAlign: "center",
+                              verticalAlign: "middle",
+                            }}
+                          >
+                            <Button
+                              size="lg"
+                              variant="primary"
+                              onClick={() => handleShow(post.id)}
+                              disabled={
+                                !jwtPayload || jwtPayload.id !== post.userId
+                              }
+                            >
+                              Edit
+                            </Button>
+                          </td>
+                          <td
+                            colSpan={2}
+                            style={{
+                              textAlign: "center",
+                              verticalAlign: "middle",
+                            }}
+                          >
+                            <Button
+                              variant="danger"
+                              size="lg"
+                              onClick={() => handleDelete(post.id)}
+                              disabled={
+                                !jwtPayload || jwtPayload.id !== post.userId
+                              }
+                            >
+                              Delete Post
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                  <ModalUpdatePost
+                    show={show}
+                    handleClose={handleClose}
+                    postData={postData}
+                  />
+                </>
+              )}
             </motion.div>
             <PagesPagination count={count} search={searchText} />
           </Container>
