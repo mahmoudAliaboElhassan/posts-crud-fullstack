@@ -19,7 +19,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
   try {
     const user = await prisma.user.findUnique({
       where: { id: parseInt(params.id) },
-      include: { comments: true },
+      include: { comments: true, posts: true },
     });
     if (!user) {
       return NextResponse.json({ message: "users not found" }, { status: 404 });
@@ -31,7 +31,9 @@ export async function DELETE(request: NextRequest, { params }: Props) {
     if (userTokenPyaload !== null && userTokenPyaload.id === user.id) {
       // same user himself d  elete his account not another
       const commentsIds = user.comments.map((comment) => comment.id);
+      const postsIds = user.posts.map((post) => post.id);
       await prisma.comment.deleteMany({ where: { id: { in: commentsIds } } });
+      await prisma.post.deleteMany({ where: { id: { in: postsIds } } });
       await prisma.user.delete({ where: { id: parseInt(params.id) } });
       return NextResponse.json(
         { message: "your profile has been deleted successfully" },

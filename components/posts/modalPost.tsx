@@ -33,7 +33,7 @@ function ModalUpdatePost({ show, handleClose, postData }: Props) {
     description: postData?.description,
   });
   return (
-    <>
+    <div>
       {postData === undefined && show ? (
         <LoadingFetching>Wait Posts Data to Load ...</LoadingFetching>
       ) : (
@@ -74,13 +74,15 @@ function ModalUpdatePost({ show, handleClose, postData }: Props) {
               <Form>
                 <TextFieldWrapper name="title" label="Title" />
                 <TextFieldWrapper name="description" label="Description" />
-                <ButtonWrapper loading={loading}>Update Password</ButtonWrapper>
+                <ButtonWrapper loading={loading}>
+                  Update Post Data
+                </ButtonWrapper>
               </Form>
             </Formik>
           </Modal.Body>
         </Modal>
       )}
-    </>
+    </div>
   );
 }
 

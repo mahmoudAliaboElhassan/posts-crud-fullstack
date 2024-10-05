@@ -31,7 +31,7 @@ function AddPostForm() {
           const user = await axiosInstance.post("/api/posts", values);
           toast.success("Post has been Added Successfully!");
           console.log(user.data);
-          router.push("/");
+          router.push("/posts?pageNumber=1");
           setLoading(false);
         } catch (error: any) {
           setLoading(false);

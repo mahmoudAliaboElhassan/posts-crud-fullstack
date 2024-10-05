@@ -70,7 +70,9 @@ function ModalUpdateComment({ show, handleClose, commentData }: Props) {
           >
             <Form>
               <TextFieldWrapper name="text" label="Title" />
-              <ButtonWrapper loading={loading}>Update comment</ButtonWrapper>
+              <ButtonWrapper loading={loading}>
+                Update Comment Data
+              </ButtonWrapper>
             </Form>
           </Formik>
         </Modal.Body>

@@ -65,8 +65,8 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
       if (result.isConfirmed) {
         try {
           const res = await axiosInstance.delete(`/api/posts/${id}`);
-          router.refresh();
           toast.success("Post has been deleted successfully!");
+          router.refresh();
         } catch (error: any) {
           console.log(error);
           Swal.fire({
@@ -119,7 +119,7 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
 
   useEffect(() => {
     getPosts();
-  }, [searchText, pageNumber]);
+  }, [searchText, pageNumber, count, postData]);
 
   return (
     <div style={{ minHeight: "100vh" }}>
@@ -127,11 +127,7 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
         <LoadingFetching>Wait for all Posts to Load ...</LoadingFetching>
       ) : (
         <>
-          {/* <div className="d-flex"> */}
-          {/* <HeadingText text="Manage Posts" /> */}
-          <Search />
-          {/* </div> */}
-
+          <Search searchVal={searchText} />
           <div style={{ height: "46px" }}></div>
           <Container fluid="lg">
             <motion.div

@@ -91,6 +91,13 @@ export async function DELETE(request: NextRequest, { params }: Props) {
       where: {
         id: parseInt(params.id),
       },
+      include: {
+        comments: {
+          select: {
+            id: true,
+          },
+        },
+      },
     });
     if (!post) {
       return NextResponse.json({ message: "Post not Found" }, { status: 404 });
@@ -104,7 +111,12 @@ export async function DELETE(request: NextRequest, { params }: Props) {
         { status: 403 }
       );
     }
-
+    const commentIds = post.comments.map((comment) => comment.id);
+    await prisma.comment.deleteMany({
+      where: {
+        id: { in: commentIds },
+      },
+    });
     const deletedPost = await prisma.post.delete({
       where: {
         id: parseInt(params.id),
