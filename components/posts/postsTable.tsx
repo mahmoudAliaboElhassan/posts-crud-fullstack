@@ -134,14 +134,9 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, ease: "easeInOut", delay: 0.2 }}
+              className="overflow-x-auto"
             >
-              <Table
-                striped="columns"
-                bordered
-                hover
-                size="md"
-                style={{ overflowX: "auto" }}
-              >
+              <Table striped="columns" bordered hover size="md">
                 <thead>
                   <tr>
                     <th

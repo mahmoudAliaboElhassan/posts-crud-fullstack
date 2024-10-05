@@ -17,7 +17,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const res = await axiosInstance.get(`/api/posts/${params.id}`);
-
+    console.log(res);
     return {
       title: res.data.title,
       description: res.data.description,
