@@ -13,7 +13,10 @@ const Footer = () => {
   const date = new Date();
   return (
     <>
-      <div className="footer-container" style={{ marginTop: "7rem" }}>
+      <div
+        className="footer-container"
+        style={{ marginTop: pathname === "/" ? "5rem" : "9rem" }}
+      >
         <Container>
           <h3 className="text-center">
             Made with{" "}
