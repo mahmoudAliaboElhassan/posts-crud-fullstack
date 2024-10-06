@@ -68,16 +68,6 @@ function ChangePasswordForm({ jwtPayload }: Props) {
             <TextFieldWrapper name="currentPassword" label="Current Password" />
             <TextFieldWrapper name="newPassword" label="New Password" />
             <ButtonWrapper loading={Loading}>Chage Password</ButtonWrapper>{" "}
-            <div className="text-center text-lg-start mt-1 mt-lg-0">
-              Remembered it{" "}
-              <Link
-                href="/login"
-                title="Login to your Account"
-                style={{ borderBottom: "1px solid white", marginTop: "8px" }}
-              >
-                Login
-              </Link>
-            </div>
           </Form>
         </Container>
       </div>
