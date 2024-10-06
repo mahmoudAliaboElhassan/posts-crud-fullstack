@@ -6,13 +6,11 @@ Welcome to the **Posts CRUD Fullstack Application**! This is a web-based platfor
 
 ## Table of Contents
 
-- [Features](features)
-- [Technologies Used](#technologies-used)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
+- **Feature**
+- **Technologies Used**
+- **Usage**
+- **Project Structure**
+- **Installation**
 
 ## Features
 
@@ -80,6 +78,6 @@ To set up this project locally, follow these steps:
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/mahmoudAliaboElhassan/posts-crud-fullstack.git
+   git clone https://github.com/yourusername/posts-crud-fullstack.git
    cd posts-crud-fullstack
    ```
