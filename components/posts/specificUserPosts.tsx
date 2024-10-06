@@ -45,6 +45,7 @@ function SpecificUserPostsComponent({ id }: Props) {
 
   return (
     <div style={{ minHeight: "94vh" }}>
+      {/* update height */}
       {loading ? (
         <LoadingFetching>Wait for your Posts to Load ...</LoadingFetching>
       ) : (
