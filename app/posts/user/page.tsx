@@ -8,11 +8,7 @@ export const metadata: Metadata = {
 };
 
 function UserPostsPage() {
-  return (
-    <>
-      <UserPosts />
-    </>
-  );
+  return <UserPosts />;
 }
 
 export default UserPostsPage;

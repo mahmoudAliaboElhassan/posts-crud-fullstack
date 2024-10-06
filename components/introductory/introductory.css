@@ -4,9 +4,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 155px);
+  min-height: calc(100vh);
   margin-top: -10px;
-  margin-bottom: -1rem;
 }
 
 .hero.dark {

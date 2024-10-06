@@ -38,7 +38,7 @@ function UserPosts() {
   }, []);
 
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <div style={{ minHeight: "94vh" }}>
       {loading ? (
         <LoadingFetching>Wait for your Posts to Load ...</LoadingFetching>
       ) : (
