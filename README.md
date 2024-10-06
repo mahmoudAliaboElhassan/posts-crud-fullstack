@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Posts CRUD Fullstack Application
 
-## Getting Started
+Welcome to the **Posts CRUD Fullstack Application**! This is a web-based platform where users can view, add, edit, and delete posts. It also supports searching for posts, pagination, and managing user authentication using JWT tokens. The app is built using a modern tech stack including Next.js, Prisma, PostgreSQL, and React-Bootstrap, with various integrated features like SweetAlert2, react-hot-toast, and Framer Motion animations.
 
-First, run the development server:
+### Live Demo: [Posts CRUD Fullstack](https://posts-crud-fullstack.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Table of Contents
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Features](features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **CRUD Operations**: Create, Read, Update, and Delete posts.
+- **JWT Authentication**: Users can only edit or delete their own posts.
+- **Post Searching**: Filter posts based on search criteria.
+- **Pagination**: Efficiently load and display posts page by page.
+- **User Feedback**: Toast notifications and SweetAlert2 dialogs for success/error actions.
+- **Responsive Design**: Optimized for various device sizes using React-Bootstrap.
+- **Animations**: Smooth animations using Framer Motion.
+- **Loading States**: User-friendly loading indicators.
 
-## Learn More
+## Technologies Used
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend**: Next.js (React) with TypeScript, React-Bootstrap, Framer Motion
+- **Backend**: Next.js API Routes, Prisma ORM, PostgreSQL
+- **Styling**: React-Bootstrap, Custom CSS
+- **State Management**: React hooks and local component state
+- **API Calls**: Axios for handling HTTP requests
+- **Authentication**: JWT tokens for secure routes
+- **Notifications**: SweetAlert2 for dialogs, react-hot-toast for notifications
+- **Deployment**: Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Once the application is running, you can:
 
-## Deploy on Vercel
+1. View Posts: Browse all posts on the homepage with pagination.
+2. Search Posts: Use the search bar to filter posts by title or content.
+3. Add Post: Click on the "Add Post" button to create a new post.
+4. Edit Post: You can only edit posts that you have created. Click the "Edit" button next to a post to update it.
+5. Delete Post: You can also delete your posts. Confirmation dialogs are used before deletion.
+6. Add Comment: Click on the "Add Comment" button to create a new Comment for specified Post.
+7. Edit Comment: You can only edit comments that you have created
+8. Delete Comment: You can also delete your Comments. Confirmation dialogs are used before deletion.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+##### ├── components/ # Reusable React components
+
+##### ├── app/ # Next.js page routes
+
+##### │ ├── api/ # API routes for backend (CRUD operations)
+
+##### │ └── page.tsx # Home Page for Route
+
+##### ├── prisma/ # Prisma schema and migration files
+
+##### ├── public/ # Static assets (images, etc.)
+
+##### ├── hooks/ # Custom React hooks
+
+##### ├── styles/ # Global styles
+
+##### ├── utils/ # Utility functions (e.g., Axios instance, types)
+
+##### ├── .env # Environment variables
+
+##### └── README.md # Documentation
+
+## Installation
+
+To set up this project locally, follow these steps:
+
+1. **Clone the Repository**:
+
+   ```bash
+   git clone https://github.com/mahmoudAliaboElhassan/posts-crud-fullstack.git
+   cd posts-crud-fullstack
+   ```
