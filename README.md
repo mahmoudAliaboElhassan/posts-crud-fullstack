@@ -14,8 +14,8 @@ Welcome to the **Posts CRUD Fullstack Application**! This is a web-based platfor
 
 ## Features
 
-- **CRUD Operations**: Create, Read, Update, and Delete posts.
-- **JWT Authentication**: Users can only edit or delete their own posts.
+- **CRUD Operations**: Create, Read, Update, and Delete posts and comments.
+- **JWT Authentication**: Users can only edit or delete their own posts and comments.
 - **Post Searching**: Filter posts based on search criteria.
 - **Pagination**: Efficiently load and display posts page by page.
 - **User Feedback**: Toast notifications and SweetAlert2 dialogs for success/error actions.
