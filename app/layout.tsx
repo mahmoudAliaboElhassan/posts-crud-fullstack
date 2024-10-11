@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./globals.css";
@@ -8,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import Footer from "@/components/footer/footer";
 import { cookies } from "next/headers";
 import { verifyTokenForPage } from "@/utils/verifyToken";
+import ScrollToTopButton from "@/components/scroll";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,6 +27,7 @@ export default function RootLayout({
         <Header payload={payload} />
         <Toaster position="top-right" />
         {children}
+        <ScrollToTopButton />
         <Footer />
       </body>
     </html>
