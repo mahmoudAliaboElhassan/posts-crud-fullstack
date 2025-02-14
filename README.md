@@ -1,5 +1,7 @@
 # Posts CRUD Fullstack Application
 
+## This website focuses on **backend services** using Next.js API routes for handling server-side logic, including authentication, data management, and API integrations .
+
 Welcome to the **Posts CRUD Fullstack Application**! This is a web-based platform where users can view, add, edit, and delete posts. It also supports searching for posts, pagination, and managing user authentication using JWT tokens. The app is built using a modern tech stack including Next.js, Prisma, PostgreSQL, and React-Bootstrap, with various integrated features like SweetAlert2, react-hot-toast, and Framer Motion animations.
 
 ### Live Demo: [Posts CRUD Fullstack](https://posts-crud-fullstack.vercel.app/)
