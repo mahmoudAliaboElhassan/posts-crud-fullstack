@@ -6,7 +6,6 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
@@ -14,15 +13,18 @@ import Link from "next/link";
 import "@fontsource/montez"; // Defaults to weight 400
 
 import { JWTPayload } from "@/utils/types";
-import profileImage from "../assets/profile-candidate.png";
+import { FaUserCircle } from "react-icons/fa";
 import UseHeaderElements from "@/hooks/use-header-elements";
 import axiosInstance from "@/utils/axiosInstance";
+import ModeToggle from "./toggle";
+import { useTheme } from "next-themes";
 
 interface Props {
   payload: JWTPayload | null;
 }
 
 const Header = ({ payload }: Props) => {
+  const { theme, setTheme } = useTheme();
   const { headerElementsUser, headerElementNotUser } = UseHeaderElements();
   const headerElements = payload ? headerElementsUser : headerElementNotUser;
   const pathname = usePathname();
@@ -59,9 +61,9 @@ const Header = ({ payload }: Props) => {
     <>
       <Navbar
         expand="lg"
-        className="bg-body-tertiary"
         expanded={expanded} // Control expansion
         onToggle={() => setExpanded(!expanded)} // Toggle function
+        className="header"
         style={{
           position: "fixed",
           left: 0,
@@ -75,12 +77,20 @@ const Header = ({ payload }: Props) => {
             <Link
               href="/"
               onClick={handleLinkClick}
-              style={{ fontFamily: "Montez, cursive", fontSize: "1.8em" }}
+              style={{
+                fontFamily: "Montez, cursive",
+                fontSize: "1.8em",
+                color: theme === "light" ? "white" : "black",
+              }}
             >
               Posts CRUD
             </Link>
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Toggle
+            aria-controls="basic-navbar-nav"
+            style={{ backgroundColor: "white" }}
+            // variant={theme === "light" ? "dark" : "light"}
+          />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               {headerElements.map(({ href, label }) => (
@@ -90,7 +100,6 @@ const Header = ({ payload }: Props) => {
                     display: "flex",
                     alignItems: "center",
                     fontWeight: href === pathname ? "bold" : "inherit",
-                    color: "black",
                     marginRight: "8px",
                     marginLeft: "8px",
                   }}
@@ -105,15 +114,23 @@ const Header = ({ payload }: Props) => {
                   </Link>
                 </Nav.Item>
               ))}
+              <Nav.Item
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginRight: "8px",
+                  marginLeft: "8px",
+                }}
+                className="mt-2 mt-lg-0"
+              >
+                <ModeToggle />
+              </Nav.Item>
               <NavDropdown
-                title={
-                  <Image
-                    src={profileImage}
-                    alt="User Icon"
-                    width={25}
-                    height={25}
-                  />
-                }
+                title={<FaUserCircle size={25} />}
+                style={{
+                  marginRight: "8px",
+                  marginLeft: "8px",
+                }}
                 id="basic-nav-dropdown"
               >
                 {payload ? (
@@ -122,7 +139,11 @@ const Header = ({ payload }: Props) => {
                       <Link
                         href="/change-password"
                         onClick={handleLinkClick}
-                        style={{ width: "100%", display: "block" }}
+                        style={{
+                          width: "100%",
+                          display: "block",
+                          color: "black !important",
+                        }}
                       >
                         Change Password
                       </Link>
@@ -130,7 +151,11 @@ const Header = ({ payload }: Props) => {
                     <NavDropdown.Divider />
                     <NavDropdown.Item
                       onClick={handleLogOut}
-                      style={{ width: "100%", display: "block" }}
+                      style={{
+                        width: "100%",
+                        display: "block",
+                        color: "black !important",
+                      }}
                     >
                       LogOut{" "}
                     </NavDropdown.Item>
@@ -141,7 +166,11 @@ const Header = ({ payload }: Props) => {
                       <Link
                         href="/login"
                         onClick={handleLinkClick}
-                        style={{ width: "100%", display: "block" }}
+                        style={{
+                          width: "100%",
+                          display: "block",
+                          color: "black !important",
+                        }}
                       >
                         Login
                       </Link>
@@ -151,7 +180,11 @@ const Header = ({ payload }: Props) => {
                       <Link
                         href="/signup"
                         onClick={handleLinkClick}
-                        style={{ width: "100%", display: "block" }}
+                        style={{
+                          width: "100%",
+                          display: "block",
+                          color: "black!important",
+                        }}
                       >
                         SignUp
                       </Link>

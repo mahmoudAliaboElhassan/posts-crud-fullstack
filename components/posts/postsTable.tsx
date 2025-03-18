@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+
 import Table from "react-bootstrap/Table";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
@@ -9,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { Button, Container } from "react-bootstrap";
 import { Post } from "@prisma/client";
 import Link from "next/link";
+
 import axiosInstance from "@/utils/axiosInstance";
 import ModalUpdatePost from "./modalPost";
 import PagesPagination from "../pagination";
@@ -17,7 +19,7 @@ import { JWTPayload } from "@/utils/types";
 import "../alert.css";
 import Search from "./search";
 import NoCount from "./noCount";
-import { div } from "framer-motion/client";
+import { useTheme } from "next-themes";
 
 interface Props {
   pageNumber: string;
@@ -33,6 +35,7 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
   const [postData, setPostData] = useState<Post | undefined>();
   const router = useRouter();
   const [show, setShow] = useState<boolean>(false);
+  const { theme, setTheme } = useTheme();
 
   const handleClose = () => setShow(false);
   const handleShow = (id: number) => {
@@ -128,7 +131,13 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
               ) : (
                 <>
                   {" "}
-                  <Table striped="columns" bordered hover size="md">
+                  <Table
+                    striped="columns"
+                    bordered
+                    hover
+                    size="md"
+                    variant={theme === "dark" ? "dark" : "light"}
+                  >
                     <thead>
                       <tr>
                         <th
@@ -192,14 +201,14 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
                               verticalAlign: "middle",
                             }}
                           >
-                            <Button
-                              variant="success"
-                              href={`/posts/${post.id}`}
-                              size="lg"
-                            >
+                            <Button variant="success" size="lg">
                               <Link
                                 href={`/posts/${post.id}`}
-                                style={{ width: "100%", height: "100%" }}
+                                style={{
+                                  color: "white",
+                                  width: "100%",
+                                  height: "100%",
+                                }}
                               >
                                 View
                               </Link>

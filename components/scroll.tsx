@@ -4,10 +4,13 @@ import React, { useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
 import { Button } from "react-bootstrap";
+import { FaArrowUp } from "react-icons/fa";
 
-import ArrowPage from "@/assets/arrow.png";
+import { useTheme } from "next-themes";
 
 const ScrollToTopButton = () => {
+  const { theme, setTheme } = useTheme();
+
   const [showButton, setShowButton] = useState<boolean>(false);
 
   const handleScroll = () => {
@@ -32,6 +35,7 @@ const ScrollToTopButton = () => {
 
   return (
     <Button
+      variant={theme === "dark" ? "dark" : "light"}
       style={{
         position: "fixed",
         bottom: showButton ? 10 : -50,
@@ -42,7 +46,7 @@ const ScrollToTopButton = () => {
       }}
     >
       <div onClick={handleButtonClick}>
-        <Image src={ArrowPage} width={25} height={25} alt="Scroll Arrow" />
+        <FaArrowUp size={25} />
       </div>
     </Button>
   );

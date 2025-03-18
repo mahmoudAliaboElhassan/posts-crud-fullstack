@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "bootstrap/dist/css/bootstrap.min.css";
+import localFont from "next/font/local";
 
 import "./globals.css";
 import Header from "@/components/header";
@@ -8,6 +9,7 @@ import Footer from "@/components/footer/footer";
 import { cookies } from "next/headers";
 import { verifyTokenForPage } from "@/utils/verifyToken";
 import ScrollToTopButton from "@/components/scroll";
+import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,11 +26,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header payload={payload} />
-        <Toaster position="top-right" />
-        {children}
-        <ScrollToTopButton />
-        <Footer />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Header payload={payload} />
+          <Toaster position="top-right" />
+          {children}
+          <ScrollToTopButton />
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
