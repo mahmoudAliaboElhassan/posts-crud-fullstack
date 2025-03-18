@@ -1,6 +1,8 @@
 # Posts CRUD Fullstack Application
 
-Welcome to the **Posts CRUD Fullstack Application**! This is a web-based platform where users can view, add, edit, and delete posts. It also supports searching for posts, pagination, and managing user authentication using JWT tokens. The app is built using a modern tech stack including Next.js, Prisma, PostgreSQL, and React-Bootstrap, with various integrated features like SweetAlert2, react-hot-toast, and Framer Motion animations.
+### This website focuses on **Backend Services** that use Next.js API routes to handle server-side logic, including authentication, data management, and API integrations.
+
+Welcome to the Posts **CRUD Fullstack Application!** This web-based platform allows users to view, add, edit, and delete posts. It also supports searching for posts, pagination, and managing user authentication using JWT tokens. The app uses a modern tech stack, including Next.js, Prisma, PostgreSQL, and React-Bootstrap, with various integrated features like SweetAlert2, react-hot-toast, and Framer Motion animations.
 
 ### Live Demo: [Posts CRUD Fullstack](https://posts-crud-fullstack.vercel.app/)
 
@@ -15,7 +17,7 @@ Welcome to the **Posts CRUD Fullstack Application**! This is a web-based platfor
 ## Features
 
 - **CRUD Operations**: Create, Read, Update, and Delete posts and comments.
-- **JWT Authentication**: Users can only edit or delete their own posts and comments.
+- **JWT Authentication**: Users can only edit or delete their posts and comments.
 - **Post Searching**: Filter posts based on search criteria.
 - **Pagination**: Efficiently load and display posts page by page.
 - **User Feedback**: Toast notifications and SweetAlert2 dialogs for success/error actions.
@@ -43,7 +45,7 @@ Welcome to the **Posts CRUD Fullstack Application**! This is a web-based platfor
 3. Add Post: Click on the "Add Post" button to create a new post.
 4. Edit Post: You can only edit posts that you have created. Click the "Edit" button next to a post to update it.
 5. Delete Post: You can also delete your posts. Confirmation dialogs are used before deletion.
-6. Add Comment: Click on the "Add Comment" button to create a new Comment for specified Post.
+6. Add Comment: Click on the "Add Comment" button to create a new Comment for the specified Post.
 7. Edit Comment: You can only edit comments that you have created
 8. Delete Comment: You can also delete your Comments. Confirmation dialogs are used before deletion.
 
