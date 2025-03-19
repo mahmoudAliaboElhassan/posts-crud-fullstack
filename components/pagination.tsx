@@ -26,6 +26,7 @@ function PagesPagination({ count, search }: Props) {
       <Pagination.Item
         key={number}
         active={number === currentPage}
+        style={{ color: "black" }}
         onClick={() => handlePageClick(number)}
       >
         {number}

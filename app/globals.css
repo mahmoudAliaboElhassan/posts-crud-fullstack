@@ -50,6 +50,10 @@ a {
   background-color: var(--text);
 } */
 
+.table a {
+  color: white !important;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

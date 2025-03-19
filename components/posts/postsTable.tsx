@@ -205,7 +205,6 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
                               <Link
                                 href={`/posts/${post.id}`}
                                 style={{
-                                  color: "white",
                                   width: "100%",
                                   height: "100%",
                                 }}
@@ -225,7 +224,6 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
                               <Link
                                 href={`/comments/add/${post.id}`}
                                 style={{
-                                  color: "white",
                                   width: "100%",
                                   height: "100%",
                                 }}
