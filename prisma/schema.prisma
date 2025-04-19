@@ -40,4 +40,4 @@ model Comment {
   
   userId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Renamed from 'users' to 'user'
-}
+} 

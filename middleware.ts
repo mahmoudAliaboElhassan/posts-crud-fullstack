@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(request: NextRequest) {
   // const authToken = request.headers.get("authToken") as string;
   const authToken = request.cookies.get("jwtToken");
+  console.log("from middleware", authToken);
   const token = authToken?.value as string;
   console.log("from middleware cookies are", request.cookies);
   if (!token) {

@@ -31,6 +31,8 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
   const [posts, setPosts] = useState<Post[]>();
   const [count, setCount] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
+  const [postIdDelete, setPostIdDelete] = useState<number>(0);
+  const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
   const [postId, setPostId] = useState<number>();
   const [postData, setPostData] = useState<Post | undefined>();
   const router = useRouter();
@@ -67,10 +69,16 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
       },
     }).then(async (result) => {
       if (result.isConfirmed) {
+        setPostIdDelete(id);
+        setLoadingDelete(true);
         try {
           const res = await axiosInstance.delete(`/api/posts/${id}`);
           toast.success("Post has been deleted successfully!");
           router.refresh();
+
+          const postsAfterDeleting = posts?.filter((post) => post.id != id);
+          console.log("postsAfterDeleting", postsAfterDeleting);
+          setPosts(postsAfterDeleting);
         } catch (error: any) {
           console.log(error);
           Swal.fire({
@@ -88,6 +96,8 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
         });
       }
     });
+    setLoadingDelete(false);
+    setPostIdDelete(0);
   };
 
   const getPosts = async () => {
@@ -262,7 +272,9 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
                               size="lg"
                               onClick={() => handleDelete(post.id)}
                               disabled={
-                                !jwtPayload || jwtPayload.id !== post.userId
+                                !jwtPayload ||
+                                jwtPayload.id !== post.userId ||
+                                (postIdDelete == post.id && loadingDelete)
                               }
                             >
                               Delete Post
