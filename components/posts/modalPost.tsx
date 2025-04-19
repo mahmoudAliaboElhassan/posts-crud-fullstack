@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -20,9 +21,10 @@ interface Props {
   show: boolean;
   handleClose: () => void;
   postData?: Post;
+  handleUpdate: () => void;
 }
 
-function ModalUpdatePost({ show, handleClose, postData }: Props) {
+function ModalUpdatePost({ show, handleClose, handleUpdate, postData }: Props) {
   console.log("postData", postData);
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
@@ -57,6 +59,8 @@ function ModalUpdatePost({ show, handleClose, postData }: Props) {
                   toast.success("Post is Updated Successfully!");
                   console.log(post.data);
                   setLoading(false);
+                  console.log("post.data.id", post.data.id);
+                  handleUpdate();
                   router.refresh();
                   handleClose();
                 } catch (error: any) {
@@ -86,4 +90,4 @@ function ModalUpdatePost({ show, handleClose, postData }: Props) {
   );
 }
 
-export default ModalUpdatePost;
+export default React.memo(ModalUpdatePost);

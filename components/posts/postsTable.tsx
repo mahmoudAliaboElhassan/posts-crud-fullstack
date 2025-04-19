@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useMemo, useEffect, useState } from "react";
 
 import Table from "react-bootstrap/Table";
 import Swal from "sweetalert2";
@@ -31,22 +31,26 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
   const [posts, setPosts] = useState<Post[]>();
   const [count, setCount] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
+  const [postUpdatedId, setPostUpdatedId] = useState<boolean>(false);
   const [postIdDelete, setPostIdDelete] = useState<number>(0);
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
-  const [postId, setPostId] = useState<number>();
   const [postData, setPostData] = useState<Post | undefined>();
   const router = useRouter();
   const [show, setShow] = useState<boolean>(false);
   const { theme, setTheme } = useTheme();
 
-  const handleClose = () => setShow(false);
-  const handleShow = (id: number) => {
-    setPostId(id);
+  const handleClose = useCallback(() => {
+    setShow(false);
+  }, []);
+  const handleShow = useCallback((id: number) => {
     setShow(true);
     getPostData(id);
-  };
+  }, []);
 
-  const getPostData = async (id: number) => {
+  const handleUpdate = useCallback(() => {
+    setPostUpdatedId((prev) => !prev);
+  }, []);
+  const getPostData = useCallback(async (id: number) => {
     setPostData(undefined);
     try {
       const res = await axiosInstance.get(`/api/posts/${id}`);
@@ -54,7 +58,7 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, []);
 
   const handleDelete = (id: number) => {
     Swal.fire({
@@ -100,6 +104,8 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
     setPostIdDelete(0);
   };
 
+  const memoizedPostData = useMemo(() => postData, [postData]);
+
   const getPosts = async () => {
     setLoading(true);
     try {
@@ -117,7 +123,7 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
 
   useEffect(() => {
     getPosts();
-  }, [searchText, pageNumber, count, postData]);
+  }, [searchText, pageNumber, count, postUpdatedId]);
 
   return (
     <div style={{ minHeight: "100vh" }}>
@@ -286,8 +292,9 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
                   </Table>
                   <ModalUpdatePost
                     show={show}
+                    handleUpdate={handleUpdate}
                     handleClose={handleClose}
-                    postData={postData}
+                    postData={memoizedPostData}
                   />
                 </>
               )}
