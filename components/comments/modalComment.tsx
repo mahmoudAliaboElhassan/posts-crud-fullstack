@@ -1,6 +1,6 @@
 "use client"; // Ensure this is present
 
-import { useState } from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "../modal.css";
@@ -20,9 +20,15 @@ interface Props {
   show: boolean;
   handleClose: () => void;
   commentData?: Comment;
+  handleUpdate: () => void;
 }
 
-function ModalUpdateComment({ show, handleClose, commentData }: Props) {
+function ModalUpdateComment({
+  show,
+  handleClose,
+  commentData,
+  handleUpdate,
+}: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const { FORM_VALIDATION_UPDATE_COMMENT } = UseFormValidation();
@@ -47,13 +53,13 @@ function ModalUpdateComment({ show, handleClose, commentData }: Props) {
             onSubmit={async (values) => {
               setLoading(true);
               try {
-                const comment = await axiosInstance.put(
+                handleUpdate();
+                await axiosInstance.put(
                   `/api/comments/${commentData?.id}`,
                   values
                 );
                 // Trigger the router to refresh the page
                 toast.success("Comment is Updated Successfully!");
-                router.refresh();
                 setLoading(false);
                 handleClose();
               } catch (error: any) {
@@ -86,6 +92,6 @@ function ModalUpdateComment({ show, handleClose, commentData }: Props) {
   );
 }
 
-export default ModalUpdateComment;
+export default React.memo(ModalUpdateComment);
 
 // router.push('/dashboard', { scroll: false })}

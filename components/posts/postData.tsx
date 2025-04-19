@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import { Button, Container } from "react-bootstrap";
 import { Comment } from "@prisma/client";
@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 import axiosInstance from "@/utils/axiosInstance";
-import { JWTPayload, SinglePost } from "@/utils/types";
+import { CommentWithUser, JWTPayload, SinglePost } from "@/utils/types";
 import ModalUpdateComment from "../comments/modalComment";
 import LoadingFetching from "../loadingData";
 import "./postData.css";
@@ -24,16 +24,20 @@ interface Props {
 function PostData({ postId, jwtPayload }: Props) {
   const [show, setShow] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const handleClose = () => setShow(false);
+  const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
+  const handleClose = useCallback(() => setShow(false), []);
   const [postData, setPostData] = useState<SinglePost>();
-  const router = useRouter();
+  const [CommentUpdate, setCommentUpdate] = useState<boolean>(false);
   const [commentId, setCommentId] = useState<number>();
+  const [commentIdDelete, setCommentIdDelete] = useState<number | null>(null);
   const [commentData, setCommentData] = useState<Comment>();
+
+  const memoizedCommentData = useMemo(() => commentData, [commentData]);
 
   const handleDelete = (id: number) => {
     Swal.fire({
-      title: "Are you sure",
-      text: "do you want to delete this Comment",
+      title: "Are you sure?",
+      text: "Do you want to delete this comment?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Delete Comment",
@@ -43,19 +47,39 @@ function PostData({ postId, jwtPayload }: Props) {
       },
     }).then(async (result) => {
       if (result.isConfirmed) {
+        // Start the deletion process, disable the button
+        setLoadingDelete(true);
+        setCommentIdDelete(id);
+
         try {
-          const res = await axiosInstance.delete(`/api/comments/${id}`);
-          router.refresh();
-          toast.success("Comment has been Deleted Successfully!");
+          // Call backend to delete the comment
+          await axiosInstance.delete(`/api/comments/${id}`);
+
+          // Update post data to reflect the comment deletion
+          setPostData((prevPostData) => {
+            if (prevPostData) {
+              const updatedComments = prevPostData.comments.filter(
+                (comment) => comment.id !== id
+              );
+              return { ...prevPostData, comments: updatedComments };
+            }
+            return prevPostData; // Ensure no undefined return value
+          });
+
+          toast.success("Comment has been deleted successfully!");
         } catch (error: any) {
           Swal.fire({
-            title: "Error in Adding Post",
+            title: "Error in Deleting Comment",
             text: error.response.data.message,
             icon: "error",
-            confirmButtonText: "ok",
+            confirmButtonText: "OK",
           });
           console.log(error);
         }
+
+        // Re-enable the delete button
+        setLoadingDelete(false);
+        setCommentIdDelete(null); // Reset the commentIdDelete after deletion
       } else {
         Swal.fire({
           title: "Comment Still Exists",
@@ -66,13 +90,16 @@ function PostData({ postId, jwtPayload }: Props) {
     });
   };
 
+  const handleUpdate = useCallback(() => {
+    setCommentUpdate((prev) => !prev);
+  }, []);
+
   const handleComment = (id: number) => {
-    setCommentId(id);
     setShow(true);
     const comment = postData?.comments.find((comment) => comment.id === id);
     setCommentData(comment);
   };
-  console.log("commentData", commentData);
+
   useEffect(() => {
     const getPostData = async () => {
       setLoading(true);
@@ -80,16 +107,14 @@ function PostData({ postId, jwtPayload }: Props) {
         const res = await axiosInstance.get(`/api/posts/${postId}`);
         setPostData(res.data);
         setLoading(false);
-
-        console.log(res.data);
       } catch (error) {
         setLoading(false);
-
         console.log(error);
       }
     };
     getPostData();
-  }, []);
+  }, [CommentUpdate]);
+
   return (
     <div style={{ minHeight: "100vh" }}>
       {loading ? (
@@ -107,7 +132,7 @@ function PostData({ postId, jwtPayload }: Props) {
                 </Link>
               </Button>
             )}
-            {postData?.comments.length === 0 ? (
+            {postData?.comments?.length === 0 ? (
               <NoCount>No Comments for this Post</NoCount>
             ) : (
               postData?.comments?.map((comment) => (
@@ -121,6 +146,9 @@ function PostData({ postId, jwtPayload }: Props) {
                       <Button
                         className="mx-2"
                         variant="danger"
+                        disabled={
+                          loadingDelete && commentIdDelete === comment.id
+                        }
                         onClick={() => handleDelete(comment.id)}
                       >
                         Delete Comment
@@ -132,11 +160,10 @@ function PostData({ postId, jwtPayload }: Props) {
                       href={`/posts/specific-user/${comment.userId}`}
                       title="go to user posts"
                     >
-                      {" "}
                       {comment.user.username}
                     </Link>
                   </div>
-                  <div className="comment-email  text-md-start text-center ms-md-2">
+                  <div className="comment-email text-md-start text-center ms-md-2">
                     {comment.user.email}
                   </div>
                 </div>
@@ -146,7 +173,8 @@ function PostData({ postId, jwtPayload }: Props) {
           <ModalUpdateComment
             show={show}
             handleClose={handleClose}
-            commentData={commentData}
+            commentData={memoizedCommentData}
+            handleUpdate={handleUpdate}
           />
         </div>
       )}

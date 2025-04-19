@@ -236,7 +236,11 @@ function PostsTable({ pageNumber, jwtPayload, searchText }: Props) {
                               verticalAlign: "middle",
                             }}
                           >
-                            <Button variant="secondary" size="lg">
+                            <Button
+                              variant="secondary"
+                              size="lg"
+                              disabled={!jwtPayload}
+                            >
                               <Link
                                 href={`/comments/add/${post.id}`}
                                 style={{

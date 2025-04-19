@@ -6,7 +6,7 @@ export interface JWTPayload {
   isAdmin: boolean;
 }
 
-type CommentWithUser = Comment & { user: User };
+export type CommentWithUser = Comment & { user: User };
 export type SinglePost = Post & { comments: CommentWithUser[] };
 
 export interface HeaderElement {
