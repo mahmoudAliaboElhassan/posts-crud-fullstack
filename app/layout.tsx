@@ -28,6 +28,12 @@ export default function RootLayout({
   const payload = verifyTokenForPage(cookie);
   return (
     <html lang="en">
+      <head>
+        <meta
+          name="google-site-verification"
+          content="4r77DN--GSwQ_XMNiL6T9tIFrsOYhUBCwmekSl4ehBY"
+        />
+      </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header payload={payload} />
