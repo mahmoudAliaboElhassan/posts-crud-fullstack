@@ -15,7 +15,8 @@ export const metadata: Metadata = {
   title: "Posts crud",
   description: "managing posts and comments",
   verification: {
-    google: process.env.GOOGLE_COLUD_API,
+    google:
+      "google-site-verification=HhxjvoOIKJPQDQMh3nuIjumtc7BER49OhLGswmPGUQE",
   },
 };
 
