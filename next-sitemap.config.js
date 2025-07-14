@@ -6,7 +6,6 @@ module.exports = {
   changefreq: "daily",
   priority: 0.7,
   sitemapSize: 5000,
-  exclude: ["/api/*", "/admin/*", "/_next/*"], // Exclude API routes and admin pages
   outDir: "./public", // Ensure output goes to public directory
 
   // Add proper XML formatting
