@@ -2,22 +2,18 @@
 module.exports = {
   siteUrl: "https://posts-crud-fullstack.vercel.app",
   generateRobotsTxt: true,
-  generateIndexSitemap: false, // Set to false to avoid issues
+  generateIndexSitemap: false, // Try setting this to false first
   changefreq: "daily",
   priority: 0.7,
   sitemapSize: 5000,
-  outDir: "./public", // Ensure output goes to public directory
-
-  // Add proper XML formatting
   transform: async (config, path) => {
     return {
       loc: path,
       changefreq: config.changefreq,
       priority: config.priority,
-      lastmod: new Date().toISOString(),
+      lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
     };
   },
-
   additionalPaths: async (config) => [
     {
       loc: "/",
@@ -32,15 +28,4 @@ module.exports = {
       lastmod: new Date().toISOString(),
     },
   ],
-
-  // Add robots.txt configuration
-  robotsTxtOptions: {
-    policies: [
-      {
-        userAgent: "*",
-        allow: "/",
-      },
-    ],
-    additionalSitemaps: ["https://posts-crud-fullstack.vercel.app/sitemap.xml"],
-  },
 };
