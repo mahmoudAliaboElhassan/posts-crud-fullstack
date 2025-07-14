@@ -14,11 +14,7 @@ module.exports = {
       changefreq: "daily",
       priority: 0.9,
     },
-    {
-      loc: "/comments",
-      changefreq: "weekly",
-      priority: 0.7,
-    },
+
     // لو عندك صفحات تانية زي /auth/login أو /dashboard زودها هنا
   ],
 };
