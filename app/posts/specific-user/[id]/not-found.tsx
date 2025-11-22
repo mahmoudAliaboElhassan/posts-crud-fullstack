@@ -1,10 +1,9 @@
-import React from "react";
-import NotFoundImage from "@/assets/not-found.png";
-import { Container } from "react-bootstrap";
-import Image from "next/image";
+import React from "react"
+import NotFoundImage from "@/assets/not-found.png"
+import Image from "next/image"
 function NotFoundPost() {
   return (
-    <Container>
+    <div>
       <h3 style={{ textAlign: "center", fontStyle: "italic" }}>
         User you want to get his Posts is not found
       </h3>
@@ -15,8 +14,8 @@ function NotFoundPost() {
         alt="not-found-img"
         style={{ margin: "auto", display: "flex" }}
       />
-    </Container>
-  );
+    </div>
+  )
 }
 
-export default NotFoundPost;
+export default NotFoundPost

@@ -1,10 +1,9 @@
-import React from "react";
-import NotFoundImage from "../../../../assets/not-found.png";
-import { Container } from "react-bootstrap";
-import Image from "next/image";
+import React from "react"
+import NotFoundImage from "../../../../assets/not-found.png"
+import Image from "next/image"
 function NotFoundUpdatePost() {
   return (
-    <Container>
+    <div>
       <h3 style={{ textAlign: "center", fontStyle: "italic" }}>
         Post you want to update is not found
       </h3>
@@ -15,8 +14,8 @@ function NotFoundUpdatePost() {
         alt="not-found-img"
         style={{ margin: "auto", display: "flex" }}
       />
-    </Container>
-  );
+    </div>
+  )
 }
 
-export default NotFoundUpdatePost;
+export default NotFoundUpdatePost
