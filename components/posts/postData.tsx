@@ -51,16 +51,13 @@ function PostData({ postId, jwtPayload }: Props) {
         cancelButton: "px-4 py-2 font-medium rounded-md text-white",
         actions: "gap-4",
       },
-
       buttonsStyling: false,
-
       didRender: () => {
         const confirmBtn = Swal.getConfirmButton()
         const cancelBtn = Swal.getCancelButton()
 
-        // إضافة الخلفيات المطلوبة
         if (confirmBtn) confirmBtn.style.backgroundColor = "#e14d4d"
-        if (cancelBtn) cancelBtn.style.backgroundColor = "#6b7280" // gray-500 تقريباً
+        if (cancelBtn) cancelBtn.style.backgroundColor = "#6b7280"
       },
     }).then(async (result) => {
       if (result.isConfirmed) {
@@ -70,14 +67,19 @@ function PostData({ postId, jwtPayload }: Props) {
         try {
           await axiosInstance.delete(`/api/comments/${id}`)
 
-          setPostData((prevPostData: { comments: any[] }) => {
-            if (prevPostData) {
-              const updatedComments = prevPostData.comments.filter(
-                (comment) => comment.id !== id
-              )
-              return { ...prevPostData, comments: updatedComments }
+          setPostData((prevPostData) => {
+            if (!prevPostData || !prevPostData.comments) {
+              return prevPostData
             }
-            return prevPostData
+
+            const updatedComments = prevPostData.comments.filter(
+              (comment) => comment.id !== id
+            )
+
+            return {
+              ...prevPostData,
+              comments: updatedComments,
+            }
           })
 
           toast.success("Comment deleted successfully!")
@@ -92,16 +94,13 @@ function PostData({ postId, jwtPayload }: Props) {
               cancelButton: "px-4 py-2 font-medium rounded-md text-white",
               actions: "gap-4",
             },
-
             buttonsStyling: false,
-
             didRender: () => {
               const confirmBtn = Swal.getConfirmButton()
               const cancelBtn = Swal.getCancelButton()
 
-              // إضافة الخلفيات المطلوبة
               if (confirmBtn) confirmBtn.style.backgroundColor = "#e14d4d"
-              if (cancelBtn) cancelBtn.style.backgroundColor = "#6b7280" // gray-500 تقريباً
+              if (cancelBtn) cancelBtn.style.backgroundColor = "#6b7280"
             },
           })
         } finally {
