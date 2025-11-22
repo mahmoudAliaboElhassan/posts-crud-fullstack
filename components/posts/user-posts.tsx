@@ -1,105 +1,175 @@
-"use client";
-import React, { useEffect, useState } from "react";
+"use client"
+import React, { useEffect, useState } from "react"
+import { motion } from "framer-motion"
+import Link from "next/link"
+import { FaUser, FaChevronDown, FaChevronUp, FaComment } from "react-icons/fa"
 
-import { Metadata } from "next";
-import { motion } from "framer-motion";
-import Link from "next/link";
-
-import axiosInstance from "@/utils/axiosInstance";
-import { SinglePost } from "@/utils/types";
-import LoadingFetching from "../loadingData";
-import styles from "./user-posts.module.css";
-import HeadingText from "./heading";
-import NoCount from "./noCount";
-
-export const metadata: Metadata = {
-  title: "User Posts - Posts CRUD",
-  description: "View and manage all posts created by the user on Posts CRUD.",
-};
+import axiosInstance from "@/utils/axiosInstance"
+import { SinglePost } from "@/utils/types"
+import LoadingFetching from "../loadingData"
+import HeadingText from "./heading"
+import NoCount from "./noCount"
 
 function UserPosts() {
-  const [userPosts, setUserPosts] = useState<SinglePost[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [active, setActive] = useState<number>(0);
+  const [userPosts, setUserPosts] = useState<SinglePost[]>([])
+  const [loading, setLoading] = useState(false)
+  const [active, setActive] = useState<number | null>(null)
+
   useEffect(() => {
     const getUserPosts = async () => {
-      setLoading(true);
+      setLoading(true)
       try {
-        const res = await axiosInstance.get("/api/posts/user");
-        setUserPosts(res.data);
-        console.log(res.data);
-        setLoading(false);
+        const res = await axiosInstance.get("/api/posts/user")
+        setUserPosts(res.data)
       } catch (error) {
-        console.log(error);
-        setLoading(false);
+        console.log(error)
+      } finally {
+        setLoading(false)
       }
-    };
-    getUserPosts();
-  }, []);
+    }
+    getUserPosts()
+  }, [])
+
+  const togglePost = (idx: number) => {
+    setActive(active === idx ? null : idx)
+  }
 
   return (
-    <div style={{ minHeight: "94vh" }}>
+    <div className="min-h-screen py-12 px-4">
       {loading ? (
-        <LoadingFetching>Wait for your Posts to Load ...</LoadingFetching>
+        <LoadingFetching>Wait for your posts to load...</LoadingFetching>
       ) : (
-        <div className={`text-md-start text-center`}>
-          <HeadingText text="Here is Your Posts" />
-          <div style={{ height: "35px" }}></div>
-          <div className={styles.container}>
+        <div className="max-w-4xl mx-auto">
+          <HeadingText text="Here are Your Posts" />
+
+          <div className="mt-8 space-y-4">
             {userPosts.length === 0 ? (
-              <NoCount>you did not add posts </NoCount>
+              <NoCount>You haven't added any posts yet</NoCount>
             ) : (
-              userPosts?.map((userPost, idx) => (
-                <div
+              userPosts.map((userPost, idx) => (
+                <motion.div
                   key={userPost.id}
-                  className={styles.postCard}
-                  onClick={() => setActive(idx)}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-700 overflow-hidden"
                 >
-                  <h2 className={styles.postTitle}>{userPost.title}</h2>
-                  <motion.div
-                    style={{
-                      overflow: "hidden",
-                    }}
-                    animate={{ height: active === idx ? "auto" : 0 }}
+                  {/* Post Header */}
+                  <button
+                    onClick={() => togglePost(idx)}
+                    className="w-full px-6 py-4 flex items-center justify-between hover:bg-zinc-50 dark:hover:bg-zinc-700/50 transition-colors"
                   >
-                    <p className={styles.postDescription}>
-                      {userPost.description}
-                    </p>
-                    <div className={styles.commentsSection}>
-                      {userPost.comments.length > 0 ? (
-                        userPost.comments.map((userComment) => (
-                          <div
-                            key={userComment.id}
-                            className={styles.commentCard}
-                          >
-                            <p className={styles.commentText}>
-                              {userComment?.text}
-                            </p>
-                            <p className={styles.commentUser}>
-                              -{" "}
-                              <Link
-                                href={`/posts/specific-user/${userComment.userId}`}
-                                title="go to user posts"
-                              >
-                                {userComment?.user?.username}
-                              </Link>
-                            </p>
-                          </div>
-                        ))
+                    <h2 className="text-xl font-semibold text-left flex-1">
+                      {userPost.title}
+                    </h2>
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
+                        <FaComment className="text-xs" />
+                        {userPost.comments.length}
+                      </span>
+                      {active === idx ? (
+                        <FaChevronUp className="text-zinc-400" />
                       ) : (
-                        <div className={styles.commentsInfo}>
-                          no Comments for this post
-                        </div>
+                        <FaChevronDown className="text-zinc-400" />
                       )}
                     </div>
+                  </button>
+
+                  {/* Post Content */}
+                  <motion.div
+                    initial={false}
+                    animate={{
+                      height: active === idx ? "auto" : 0,
+                      opacity: active === idx ? 1 : 0,
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 pb-6 space-y-4">
+                      {/* Description */}
+                      <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                        {userPost.description}
+                      </p>
+
+                      {/* Comments Section */}
+                      <div className="border-t border-zinc-200 dark:border-zinc-700 pt-4">
+                        <h3 className="text-sm font-semibold text-zinc-600 dark:text-zinc-400 mb-3 flex items-center gap-2">
+                          <FaComment className="text-xs" />
+                          Comments ({userPost.comments.length})
+                        </h3>
+
+                        {userPost.comments.length > 0 ? (
+                          <div className="space-y-3">
+                            {userPost.comments.map(
+                              (userComment: {
+                                id: React.Key | null | undefined
+                                text:
+                                  | string
+                                  | number
+                                  | bigint
+                                  | boolean
+                                  | React.ReactElement<
+                                      any,
+                                      string | React.JSXElementConstructor<any>
+                                    >
+                                  | Iterable<React.ReactNode>
+                                  | React.ReactPortal
+                                  | Promise<React.AwaitedReactNode>
+                                  | null
+                                  | undefined
+                                userId: any
+                                user: {
+                                  username:
+                                    | string
+                                    | number
+                                    | bigint
+                                    | boolean
+                                    | React.ReactElement<
+                                        any,
+                                        | string
+                                        | React.JSXElementConstructor<any>
+                                      >
+                                    | Iterable<React.ReactNode>
+                                    | React.ReactPortal
+                                    | Promise<React.AwaitedReactNode>
+                                    | null
+                                    | undefined
+                                }
+                              }) => (
+                                <div
+                                  key={userComment.id}
+                                  className="bg-zinc-50 dark:bg-zinc-700/50 rounded-lg p-4"
+                                >
+                                  <p className="text-zinc-700 dark:text-zinc-300 mb-2">
+                                    {userComment.text}
+                                  </p>
+                                  <Link
+                                    href={`/posts/specific-user/${userComment.userId}`}
+                                    className="text-sm text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+                                  >
+                                    <FaUser className="text-xs" />
+                                    {userComment.user?.username}
+                                  </Link>
+                                </div>
+                              )
+                            )}
+                          </div>
+                        ) : (
+                          <p className="text-sm text-zinc-500 dark:text-zinc-400 italic">
+                            No comments for this post yet
+                          </p>
+                        )}
+                      </div>
+                    </div>
                   </motion.div>
-                </div>
+                </motion.div>
               ))
             )}
           </div>
         </div>
       )}
     </div>
-  );
+  )
 }
-export default UserPosts;
+
+export default UserPosts

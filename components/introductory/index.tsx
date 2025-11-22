@@ -1,34 +1,34 @@
-"use client";
-
-import React, { useState } from "react";
-import { useInView } from "react-intersection-observer";
-import { Container } from "react-bootstrap";
-import { motion } from "framer-motion";
-
-import "./introductory.css";
-import Heart from "@/assets/heart.png";
-import Image from "next/image";
+"use client"
+import React, { useState } from "react"
+import { useInView } from "react-intersection-observer"
+import { motion } from "framer-motion"
+import { Heart } from "lucide-react"
 
 function Introductory() {
-  const [firstAnimationComplete, setFirstAnimationComplete] = useState(false);
+  const [firstAnimationComplete, setFirstAnimationComplete] = useState(false)
 
-  // Use useInView hook
-  const { ref: imgRef, inView: imgInView } = useInView({ triggerOnce: false });
+  const { ref: imgRef, inView: imgInView } = useInView({
+    triggerOnce: false,
+  })
+
   const { ref: textRef, inView: textInView } = useInView({
     triggerOnce: false,
-  });
+  })
 
-  const words = "Welcome To Our Posts CRUD Interaction Application".split(" ");
+  const words = "Welcome To Our Posts CRUD Interaction Application".split(" ")
   const secondText =
-    "Feel free to create, edit, and interact with posts!".split(" ");
+    "Feel free to create, edit, and interact with posts!".split(" ")
 
   const container = {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
       opacity: 1,
-      transition: { staggerChildren: 0.22, delayChildren: 0.06 * i },
+      transition: {
+        staggerChildren: 0.22,
+        delayChildren: 0.06 * i,
+      },
     }),
-  };
+  }
 
   const child = {
     visible: {
@@ -49,93 +49,81 @@ function Introductory() {
         stiffness: 100,
       },
     },
-  };
+  }
+
+  const imageVariants = {
+    hidden: { scale: 0, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+      },
+    },
+  }
 
   return (
-    <div className={`hero text-center text-md-left`}>
-      <Container
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          maxWidth: "600px",
-        }}
-        className="flex-column flex-md-row"
-      >
-        <motion.div
-          ref={imgRef}
-          initial={{ opacity: 0, y: -100 }}
-          animate={imgInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1 }}
-          className="hero-right"
-        >
-          <Image
-            src={Heart}
-            width={60}
-            height={60}
-            loading="lazy"
-            alt="Introductory Image"
-          />
-        </motion.div>
-        <div className="hero-left">
-          <h2>
-            {/* First Animation */}
-            <motion.div
-              style={{
-                overflow: "hidden",
-                display: "flex",
-                justifyContent: "center",
-                flexWrap: "wrap",
-                fontSize: "2rem",
-              }}
-              ref={textRef}
+    <section className="py-20 px-4">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col lg:flex-row items-center gap-12">
+          {/* Heart Icon */}
+          <motion.div
+            ref={imgRef}
+            variants={imageVariants}
+            initial="hidden"
+            animate={imgInView ? "visible" : "hidden"}
+            className="flex-shrink-0"
+          >
+            <Heart className="w-32 h-32 lg:w-40 lg:h-40 text-pink-500 fill-pink-500" />
+          </motion.div>
+
+          {/* Text Content */}
+          <div ref={textRef} className="flex-1 text-center lg:text-left">
+            {/* Main Heading */}
+            <motion.h1
+              variants={container}
               initial="hidden"
               animate={textInView ? "visible" : "hidden"}
-              variants={container}
-              onAnimationComplete={() => setFirstAnimationComplete(true)} // Trigger the second animation
+              onAnimationComplete={() => setFirstAnimationComplete(true)}
+              className="text-4xl md:text-5xl font-bold mb-6"
             >
               {words.map((word, index) => (
                 <motion.span
                   variants={child}
-                  style={{ marginRight: "5px" }}
                   key={index}
+                  className="inline-block mr-3"
                 >
                   {word}
                 </motion.span>
               ))}
-            </motion.div>
+            </motion.h1>
 
-            {/* Second Animation */}
+            {/* Subtitle */}
             {firstAnimationComplete && (
-              <motion.div
-                style={{
-                  overflow: "hidden",
-                  display: "flex",
-                  justifyContent: "center",
-                  flexWrap: "wrap",
-                  fontSize: "1.5rem",
-                  marginTop: "20px", // Add space between the two texts
-                }}
+              <motion.p
+                variants={container}
                 initial="hidden"
                 animate="visible"
-                variants={container}
+                className="text-xl md:text-2xl text-zinc-600 dark:text-zinc-400"
               >
                 {secondText.map((word, index) => (
                   <motion.span
                     variants={child}
-                    style={{ marginRight: "5px" }}
                     key={index}
+                    className="inline-block mr-2"
                   >
                     {word}
                   </motion.span>
                 ))}
-              </motion.div>
+              </motion.p>
             )}
-          </h2>
+          </div>
         </div>
-      </Container>
-    </div>
-  );
+      </div>
+    </section>
+  )
 }
 
-export default Introductory;
+export default Introductory

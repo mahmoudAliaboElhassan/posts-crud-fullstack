@@ -1,204 +1,253 @@
-"use client";
+"use client"
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react"
+import { usePathname, useRouter } from "next/navigation"
+import Link from "next/link"
+import Swal from "sweetalert2"
+import toast from "react-hot-toast"
+import "@fontsource/montez"
 
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import { usePathname, useRouter } from "next/navigation";
-import Swal from "sweetalert2";
-import toast from "react-hot-toast";
-import Link from "next/link";
-import "@fontsource/montez"; // Defaults to weight 400
-
-import { JWTPayload } from "@/utils/types";
-import { FaUserCircle } from "react-icons/fa";
-import UseHeaderElements from "@/hooks/use-header-elements";
-import axiosInstance from "@/utils/axiosInstance";
-import ModeToggle from "./toggle";
-import { useTheme } from "next-themes";
+import { JWTPayload } from "@/utils/types"
+import { FaUserCircle } from "react-icons/fa"
+import { HiMenu, HiX } from "react-icons/hi"
+import UseHeaderElements from "@/hooks/use-header-elements"
+import axiosInstance from "@/utils/axiosInstance"
+import ModeToggle from "./toggle"
 
 interface Props {
-  payload: JWTPayload | null;
+  payload: JWTPayload | null
 }
 
 const Header = ({ payload }: Props) => {
-  const { theme, setTheme } = useTheme();
-  const { headerElementsUser, headerElementNotUser } = UseHeaderElements();
-  const headerElements = payload ? headerElementsUser : headerElementNotUser;
-  const pathname = usePathname();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [expanded, setExpanded] = useState<boolean>(false); // State to manage Navbar toggle
-  const router = useRouter();
+  const { headerElementsUser, headerElementNotUser } = UseHeaderElements()
+  const headerElements = payload ? headerElementsUser : headerElementNotUser
+  const pathname = usePathname()
+  const router = useRouter()
+
+  const [loading, setLoading] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   const handleLogOut = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      await axiosInstance.get("/api/users/logout");
-      setLoading(false);
-      toast.success("You Have Logged Out Successfully!");
-      router.push("/");
-      router.refresh();
-      setExpanded(false); // Close the dropdown after logging out
+      await axiosInstance.get("/api/users/logout")
+      toast.success("You have logged out successfully!")
+      router.push("/")
+      router.refresh()
+      closeMenus()
     } catch (error: any) {
-      setLoading(false);
       Swal.fire({
-        title: "Error in Logging",
-        text: error.response.data.message,
+        title: "Error",
+        text: error.response?.data?.message || "Logout failed",
         icon: "error",
-        confirmButtonText: "ok",
-      });
+        confirmButtonText: "OK",
+      })
+    } finally {
+      setLoading(false)
     }
-  };
+  }
 
-  const handleLinkClick = () => {
-    setExpanded(false);
-    console.log("clicked");
-  };
+  const closeMenus = () => {
+    setMobileMenuOpen(false)
+    setDropdownOpen(false)
+  }
 
   return (
     <>
-      <Navbar
-        expand="lg"
-        expanded={expanded} // Control expansion
-        onToggle={() => setExpanded(!expanded)} // Toggle function
-        className="header"
-        style={{
-          position: "fixed",
-          left: 0,
-          top: 0,
-          width: "100%",
-          zIndex: "1001",
-        }}
-      >
-        <Container>
-          <Navbar.Brand style={{ margin: "auto" }}>
+      <header className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900 dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-100 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
             <Link
               href="/"
-              onClick={handleLinkClick}
-              style={{
-                fontFamily: "Montez, cursive",
-                fontSize: "1.8em",
-                color: theme === "light" ? "white" : "black",
-              }}
+              onClick={closeMenus}
+              className="font-montez text-3xl text-white dark:text-zinc-900 hover:scale-105 transition-transform duration-200"
+              style={{ fontFamily: "Montez, cursive" }}
             >
               Posts CRUD
             </Link>
-          </Navbar.Brand>
-          <Navbar.Toggle
-            aria-controls="basic-navbar-nav"
-            style={{ backgroundColor: "white" }}
-            // variant={theme === "light" ? "dark" : "light"}
-          />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
+
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center gap-1">
               {headerElements.map(({ href, label }) => (
-                <Nav.Item
+                <Link
                   key={href}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    fontWeight: href === pathname ? "bold" : "inherit",
-                    marginRight: "8px",
-                    marginLeft: "8px",
-                  }}
-                  className="mt-2 mt-lg-0"
+                  href={href}
+                  className={`px-4 py-2 rounded-lg text-white dark:text-zinc-900 transition-all duration-200 hover:bg-white/10 dark:hover:bg-black/10 ${
+                    pathname === href
+                      ? "font-bold bg-white/20 dark:bg-black/20"
+                      : ""
+                  }`}
                 >
-                  <Link
-                    href={href}
-                    onClick={handleLinkClick}
-                    style={{ width: "100%" }}
-                  >
-                    {label}
-                  </Link>
-                </Nav.Item>
+                  {label}
+                </Link>
               ))}
-              <Nav.Item
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginRight: "8px",
-                  marginLeft: "8px",
-                }}
-                className="mt-2 mt-lg-0"
-              >
+
+              {/* Theme Toggle */}
+              <div className="ml-2">
                 <ModeToggle />
-              </Nav.Item>
-              <NavDropdown
-                title={<FaUserCircle size={25} />}
-                style={{
-                  marginRight: "8px",
-                  marginLeft: "8px",
-                }}
-                id="basic-nav-dropdown"
-              >
-                {payload ? (
-                  <>
-                    <NavDropdown.Item>
+              </div>
+
+              {/* User Dropdown */}
+              <div className="relative ml-2" ref={dropdownRef}>
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="p-2 rounded-full text-white dark:text-zinc-900 hover:bg-white/10 dark:hover:bg-black/10 transition-all duration-200 hover:scale-110"
+                >
+                  <FaUserCircle size={26} />
+                </button>
+
+                {/* Dropdown Menu */}
+                <div
+                  className={`absolute right-0 mt-2 w-48 bg-white dark:bg-zinc-800 rounded-xl shadow-2xl border border-zinc-200 dark:border-zinc-700 overflow-hidden transition-all duration-200 origin-top-right ${
+                    dropdownOpen
+                      ? "opacity-100 scale-100 translate-y-0"
+                      : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+                  }`}
+                >
+                  {payload ? (
+                    <>
                       <Link
                         href="/change-password"
-                        onClick={handleLinkClick}
-                        style={{
-                          width: "100%",
-                          display: "block",
-                          color: "black !important",
-                        }}
+                        onClick={closeMenus}
+                        className="block px-4 py-3 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors"
                       >
                         Change Password
                       </Link>
-                    </NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item
-                      onClick={handleLogOut}
-                      style={{
-                        width: "100%",
-                        display: "block",
-                        color: "black !important",
-                      }}
-                    >
-                      LogOut{" "}
-                    </NavDropdown.Item>
-                  </>
-                ) : (
-                  <>
-                    <NavDropdown.Item>
+                      <hr className="border-zinc-200 dark:border-zinc-700" />
+                      <button
+                        onClick={handleLogOut}
+                        disabled={loading}
+                        className="w-full text-left px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors disabled:opacity-50"
+                      >
+                        {loading ? "Logging out..." : "Logout"}
+                      </button>
+                    </>
+                  ) : (
+                    <>
                       <Link
                         href="/login"
-                        onClick={handleLinkClick}
-                        style={{
-                          width: "100%",
-                          display: "block",
-                          color: "black !important",
-                        }}
+                        onClick={closeMenus}
+                        className="block px-4 py-3 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors"
                       >
                         Login
                       </Link>
-                    </NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item>
+                      <hr className="border-zinc-200 dark:border-zinc-700" />
                       <Link
                         href="/signup"
-                        onClick={handleLinkClick}
-                        style={{
-                          width: "100%",
-                          display: "block",
-                          color: "black!important",
-                        }}
+                        onClick={closeMenus}
+                        className="block px-4 py-3 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors"
                       >
-                        SignUp
+                        Sign Up
                       </Link>
-                    </NavDropdown.Item>
-                  </>
-                )}
-              </NavDropdown>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-      <div style={{ height: "90px" }}></div>
-    </>
-  );
-};
+                    </>
+                  )}
+                </div>
+              </div>
+            </nav>
 
-export default Header;
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden p-2 rounded-lg text-white dark:text-zinc-900 hover:bg-white/10 dark:hover:bg-black/10 transition-colors"
+            >
+              {mobileMenuOpen ? <HiX size={28} /> : <HiMenu size={28} />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        <div
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            mobileMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <nav className="px-4 pb-6 pt-2 space-y-1 bg-zinc-800/50 dark:bg-zinc-300/50 backdrop-blur-sm">
+            {headerElements.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={closeMenus}
+                className={`block px-4 py-3 rounded-lg text-white dark:text-zinc-900 transition-all duration-200 hover:bg-white/10 dark:hover:bg-black/10 ${
+                  pathname === href
+                    ? "font-bold bg-white/20 dark:bg-black/20"
+                    : ""
+                }`}
+              >
+                {label}
+              </Link>
+            ))}
+
+            {/* Theme Toggle */}
+            <div className="flex items-center gap-3 px-4 py-3">
+              <span className="text-white/70 dark:text-zinc-900/70 text-sm">
+                Theme
+              </span>
+              <ModeToggle />
+            </div>
+
+            <hr className="border-white/20 dark:border-black/20 my-2" />
+
+            {/* Auth Links */}
+            {payload ? (
+              <>
+                <Link
+                  href="/change-password"
+                  onClick={closeMenus}
+                  className="block px-4 py-3 rounded-lg text-white dark:text-zinc-900 hover:bg-white/10 dark:hover:bg-black/10 transition-colors"
+                >
+                  Change Password
+                </Link>
+                <button
+                  onClick={handleLogOut}
+                  disabled={loading}
+                  className="w-full text-left px-4 py-3 rounded-lg text-red-400 dark:text-red-600 hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                >
+                  {loading ? "Logging out..." : "Logout"}
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  onClick={closeMenus}
+                  className="block px-4 py-3 rounded-lg text-white dark:text-zinc-900 hover:bg-white/10 dark:hover:bg-black/10 transition-colors"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  onClick={closeMenus}
+                  className="block px-4 py-3 rounded-lg text-white dark:text-zinc-900 hover:bg-white/10 dark:hover:bg-black/10 transition-colors"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </nav>
+        </div>
+      </header>
+
+      {/* Spacer for fixed header */}
+      <div className="h-16" />
+    </>
+  )
+}
+
+export default Header

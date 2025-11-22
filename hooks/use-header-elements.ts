@@ -1,7 +1,7 @@
-"use client";
+"use client"
 
-import { HeaderElement } from "@/utils/types";
-import { usePathname } from "next/navigation";
+import { HeaderElement } from "@/utils/types"
+import { usePathname } from "next/navigation"
 
 function UseHeaderElements() {
   const headerElementsUser: HeaderElement[] = [
@@ -17,14 +17,14 @@ function UseHeaderElements() {
       href: "/posts/user",
       label: "YOUR POSTS",
     },
-  ];
+  ]
   const headerElementNotUser: HeaderElement[] = [
     {
       href: "/posts",
       label: "POSTS",
     },
-  ];
-  return { headerElementsUser, headerElementNotUser };
+  ]
+  return { headerElementsUser, headerElementNotUser }
 }
 
-export default UseHeaderElements;
+export default UseHeaderElements
