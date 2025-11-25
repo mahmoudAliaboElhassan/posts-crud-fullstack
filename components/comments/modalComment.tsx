@@ -84,7 +84,7 @@ function ModalUpdateComment({
           {/* Body */}
           <div className="p-6 overflow-y-auto max-h-[calc(90vh-180px)]">
             {commentData === undefined ? (
-              <div className="min-h-screen">
+              <div className="min-h-screen no-scrollbar">
                 <LoadingFetching>
                   Wait for comment data to load...
                 </LoadingFetching>

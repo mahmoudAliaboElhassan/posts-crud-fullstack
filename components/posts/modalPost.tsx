@@ -80,7 +80,7 @@ function ModalUpdatePost({ show, handleClose, postData, handleUpdate }: Props) {
           </div>
 
           {/* Body */}
-          <div className="p-6 overflow-y-auto max-h-[calc(90vh-180px)]">
+          <div className="p-6 overflow-y-hidden max-h-[calc(90vh-180px)]">
             {postData === undefined ? (
               <div className="min-h-screen">
                 <LoadingFetching>Wait for post data to load...</LoadingFetching>
